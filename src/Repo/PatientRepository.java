@@ -1,5 +1,5 @@
 package Repo;
 
-import Model.Room;
+import Model.Patient;
 
-public class RoomRepository extends InMemoryRepository<Room> {}
+public class PatientRepository extends InMemoryRepository<Patient> {}
