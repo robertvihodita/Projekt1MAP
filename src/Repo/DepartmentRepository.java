@@ -1,6 +1,5 @@
 package Repo;
 
-package com.example.hospitalmanagementsystem.repository;
 
 import Model.Department;
 
