@@ -9,7 +9,7 @@ public class Appointment {
     private String departmentId;
     private String patientId;
     private LocalDateTime admissionDate;
-    private String status; // "Active"/"Completed"
+    private String status; // "Active"/"Completed" // enum & la fel pt toate de tipul asta ; datele cu localdate
     private List<String> medicalStaff = new ArrayList<>();
 
     public Appointment() {}

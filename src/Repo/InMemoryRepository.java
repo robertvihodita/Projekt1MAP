@@ -3,7 +3,7 @@ package Repo;
 import java.util.*;
 
 public class InMemoryRepository<T> {
-    protected final Map<String, T> storage = new LinkedHashMap<>();
+    protected final Map<String, T> storage = new LinkedHashMap<>();  // nevoie de interfata
 
     public T save(String id, T obj) {
         storage.put(id, obj);
