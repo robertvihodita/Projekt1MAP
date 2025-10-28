@@ -1,5 +1,5 @@
-package Repo;
+package repository;
 
-import Model.MedicalStaffAppointment;
+import model.MedicalStaffAppointment;
 
 public class MedicalStaffAppointmentRepository extends InMemoryRepository<MedicalStaffAppointment> {}

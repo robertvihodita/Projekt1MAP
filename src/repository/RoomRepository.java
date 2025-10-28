@@ -1,5 +1,5 @@
-package Repo;
+package repository;
 
-import Model.Room;
+import model.Room;
 
 public class RoomRepository extends InMemoryRepository<Room> {}

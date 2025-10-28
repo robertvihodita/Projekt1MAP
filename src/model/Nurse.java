@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 public class Nurse extends MedicalStaff {
     private String qualificationLevel;

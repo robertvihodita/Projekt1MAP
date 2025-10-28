@@ -1,19 +1,16 @@
-package Model;
-
+package model;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class MedicalStaff {
+public class Patient {
     private String id;
     private String name;
     private List<String> appointments = new ArrayList<>();
-    private String departmentId;
 
-    public MedicalStaff() {}
-    public MedicalStaff(String id, String name, String departmentId) {
+    public Patient() {}
+    public Patient(String id, String name) {
         this.id = id;
         this.name = name;
-        this.departmentId = departmentId;
     }
 
     public String getId() { return id; }
@@ -21,6 +18,4 @@ public abstract class MedicalStaff {
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
     public List<String> getAppointments() { return appointments; }
-    public String getDepartmentId() { return departmentId; }
-    public void setDepartmentId(String departmentId) { this.departmentId = departmentId; }
 }

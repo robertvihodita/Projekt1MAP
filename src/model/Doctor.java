@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 public class Doctor extends MedicalStaff {
     private String licenseNumber;

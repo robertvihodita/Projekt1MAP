@@ -1,6 +1,6 @@
-package Repo;
+package repository;
 
-import Model.Patient;
+import model.Patient;
 
 public class PatientRepository extends InMemoryRepository<Patient> {}
 

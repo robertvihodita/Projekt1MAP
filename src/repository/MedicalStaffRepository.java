@@ -1,6 +1,6 @@
-package Repo;
+package repository;
 
-import Model.MedicalStaff;
+import model.MedicalStaff;
 import java.util.*;
 import java.util.stream.Collectors;
 

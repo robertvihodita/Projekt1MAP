@@ -1,5 +1,5 @@
-import Model.*;
-import Repo.*;
+import model.*;
+import repository.*;
 import java.time.LocalDateTime;
 
 public class Main {

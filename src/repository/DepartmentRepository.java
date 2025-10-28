@@ -1,6 +1,6 @@
-package Repo;
+package repository;
 
 
-import Model.Department;
+import model.Department;
 
 public class DepartmentRepository extends InMemoryRepository<Department> {}

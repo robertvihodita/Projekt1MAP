@@ -1,6 +1,6 @@
-package Repo;
+package repository;
 
-import Model.Hospital;
+import model.Hospital;
 
 public class HospitalRepository extends InMemoryRepository<Hospital> {
 
