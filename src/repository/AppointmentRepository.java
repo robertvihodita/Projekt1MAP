@@ -1,5 +1,5 @@
-package Repo;
+package repository;
 
-import Model.Appointment;
+import model.Appointment;
 
 public class AppointmentRepository extends InMemoryRepository<Appointment> {}

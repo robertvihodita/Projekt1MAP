@@ -1,81 +1,48 @@
-import model.*;
+import controller.*;
 import repository.*;
-import java.time.LocalDateTime;
+import service.*;
+import model.*;
 
 public class Main {
     public static void main(String[] args) {
-
+        // Initialize repositories
         HospitalRepository hospitalRepo = new HospitalRepository();
         DepartmentRepository departmentRepo = new DepartmentRepository();
         RoomRepository roomRepo = new RoomRepository();
+        MedicalStaffRepository staffRepo = new MedicalStaffRepository();
         PatientRepository patientRepo = new PatientRepository();
-        MedicalStaffRepository medicalStaffRepo = new MedicalStaffRepository();
         AppointmentRepository appointmentRepo = new AppointmentRepository();
-        MedicalStaffAppointmentRepository msAppointmentRepo = new MedicalStaffAppointmentRepository();
 
+        // Initialize services
+        HospitalService hospitalService = new HospitalService(hospitalRepo);
+        DepartmentService departmentService = new DepartmentService(departmentRepo);
+        RoomService roomService = new RoomService(roomRepo);
+        MedicalStaffService staffService = new MedicalStaffService(staffRepo);
+        PatientService patientService = new PatientService(patientRepo);
+        AppointmentService appointmentService = new AppointmentService(appointmentRepo);
 
-        Hospital hospital = new Hospital("H1", "City Hospital", "Berlin");
-        hospitalRepo.save(hospital.getId(), hospital);
+        // Initialize controllers
+        HospitalController hospitalController = new HospitalController(hospitalService);
+        DepartmentController departmentController = new DepartmentController(departmentService);
+        RoomController roomController = new RoomController(roomService);
+        MedicalStaffController staffController = new MedicalStaffController(staffService);
+        PatientController patientController = new PatientController(patientService);
+        AppointmentController appointmentController = new AppointmentController(appointmentService);
 
-        Department cardiology = new Department("D1", "Cardiology", hospital.getId());
-        departmentRepo.save(cardiology.getId(), cardiology);
-        hospital.getDepartments().add(cardiology.getId());
+        // Use controllers
+        hospitalController.addHospital(new Hospital("H1", "City Hospital", "Berlin"));
+        departmentController.addDepartment(new Department("D1", "Cardiology", "H1"));
+        roomController.addRoom(new Room("R1", "H1", "101", 2, "Available"));
+        staffController.addStaff(new Doctor("M1", "Dr. Müller", "D1", "LIC123"));
+        patientController.addPatient(new Patient("P1", "John Doe"));
+        appointmentController.createSampleAppointment();
 
-        Room room101 = new Room("R1", hospital.getId(), "101", 2, "Available");
-        Room room102 = new Room("R2", hospital.getId(), "102", 1, "Occupied");
-        roomRepo.save(room101.getId(), room101);
-        roomRepo.save(room102.getId(), room102);
-        hospital.getRooms().add(room101.getId());
-        hospital.getRooms().add(room102.getId());
-        cardiology.getRooms().add(room101.getId());
-
-        Doctor doctor = new Doctor("M1", "Dr. Müller", cardiology.getId(), "LIC12345");
-        Nurse nurse = new Nurse("M2", "Anna Schmidt", cardiology.getId(), "Senior");
-        medicalStaffRepo.save(doctor.getId(), doctor);
-        medicalStaffRepo.save(nurse.getId(), nurse);
-
-        Patient patient = new Patient("P1", "John Doe");
-        patientRepo.save(patient.getId(), patient);
-
-        Appointment appointment = new Appointment(
-                "A1",
-                cardiology.getId(),
-                patient.getId(),
-                LocalDateTime.now(),
-                "Active"
-        );
-        appointmentRepo.save(appointment.getId(), appointment);
-
-
-        appointment.getMedicalStaff().add(doctor.getId());
-        appointment.getMedicalStaff().add(nurse.getId());
-        doctor.getAppointments().add(appointment.getId());
-        nurse.getAppointments().add(appointment.getId());
-        patient.getAppointments().add(appointment.getId());
-
-        MedicalStaffAppointment msApp1 = new MedicalStaffAppointment("MSA1", appointment.getId(), doctor.getId());
-        MedicalStaffAppointment msApp2 = new MedicalStaffAppointment("MSA2", appointment.getId(), nurse.getId());
-        msAppointmentRepo.save(msApp1.getId(), msApp1);
-        msAppointmentRepo.save(msApp2.getId(), msApp2);
-
-        System.out.println("=== Hospital System Overview ===");
-        System.out.println("Hospital: " + hospital.getName() + " (" + hospital.getCity() + ")");
-        System.out.println("Department: " + cardiology.getName());
-        System.out.println("Room IDs: " + hospital.getRooms());
-        System.out.println();
-
-        System.out.println("Patient: " + patient.getName());
-        System.out.println("Appointment ID: " + appointment.getId());
-        System.out.println("Status: " + appointment.getStatus());
-        System.out.println("Assigned Medical Staff: ");
-        for (String msId : appointment.getMedicalStaff()) {
-            medicalStaffRepo.findById(msId).ifPresent(ms ->
-                    System.out.println(" - " + ms.getName())
-            );
-        }
-
-        System.out.println();
-        System.out.println("All Appointments: " + appointmentRepo.findAll().size());
-        System.out.println("All Patients: " + patientRepo.findAll().size());
+        // Display data
+        hospitalController.showAllHospitals();
+        departmentController.showAllDepartments();
+        roomController.showAllRooms();
+        staffController.showAllStaff();
+        patientController.showAllPatients();
+        appointmentController.showAllAppointments();
     }
 }
