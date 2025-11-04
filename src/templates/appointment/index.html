@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Appointments</title></head>
+<body>
+<h1>Appointments</h1>
+
+<a th:href="@{/appointments/new}">Add new Appointment</a>
+
+<table border="1">
+    <tr><th>ID</th><th>Department</th><th>Patient</th><th>Date</th><th>Status</th><th>Action</th></tr>
+    <tr th:each="a : ${appointments}">
+        <td th:text="${a.id}"></td>
+        <td th:text="${a.departmentId}"></td>
+        <td th:text="${a.patientId}"></td>
+        <td th:text="${a.admissionDate}"></td>
+        <td th:text="${a.status}"></td>
+        <td>
+            <form th:action="@{'/appointments/' + ${a.id} + '/delete'}" method="post">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
