@@ -1,8 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 package model;
 
 import java.util.ArrayList;
@@ -13,61 +8,30 @@ public class Room {
     private String hospitalId;
     private double capacity;
     private String number;
-    private String status;
-    private List<String> appointments = new ArrayList();
+    private RoomStatus status;
+    private List<String> appointmentIds = new ArrayList<>();
 
-    public Room() {
-    }
-
-    public Room(String id, String hospitalId, String number, double capacity, String status) {
+    public Room(String id, String hospitalId, double capacity, String number, RoomStatus status) {
         this.id = id;
         this.hospitalId = hospitalId;
-        this.number = number;
         this.capacity = capacity;
+        this.number = number;
         this.status = status;
     }
 
-    public String getId() {
-        return this.id;
-    }
+    public String getId() { return id; }
+    public String getHospitalId() { return hospitalId; }
+    public double getCapacity() { return capacity; }
+    public String getNumber() { return number; }
+    public RoomStatus getStatus() { return status; }
+    public void setStatus(RoomStatus status) { this.status = status; }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+    public List<String> getAppointmentIds() { return appointmentIds; }
+    public void addAppointmentId(String appointmentId) { this.appointmentIds.add(appointmentId); }
 
-    public String getHospitalId() {
-        return this.hospitalId;
-    }
 
-    public void setHospitalId(String hospitalId) {
-        this.hospitalId = hospitalId;
-    }
-
-    public double getCapacity() {
-        return this.capacity;
-    }
-
-    public void setCapacity(double capacity) {
-        this.capacity = capacity;
-    }
-
-    public String getNumber() {
-        return this.number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
-    }
-
-    public String getStatus() {
-        return this.status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public List<String> getAppointments() {
-        return this.appointments;
+    public enum RoomStatus {
+        AVAILABLE,
+        OCCUPIED
     }
 }
