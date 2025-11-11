@@ -1,10 +1,13 @@
 package service;
 
+import org.springframework.stereotype.Service;
+
 import repository.AppointmentRepository;
 import model.Appointment;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class AppointmentService {
     private final AppointmentRepository appointmentRepository;
 

@@ -1,10 +1,13 @@
 package service;
 
+import org.springframework.stereotype.Service;
+
 import repository.DepartmentRepository;
 import model.Department;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class DepartmentService {
     private final DepartmentRepository departmentRepository;
 

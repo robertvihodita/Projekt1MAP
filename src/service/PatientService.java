@@ -1,10 +1,13 @@
 package service;
 
+import org.springframework.stereotype.Service;
+
 import repository.PatientRepository;
 import model.Patient;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class PatientService {
     private final PatientRepository patientRepository;
 

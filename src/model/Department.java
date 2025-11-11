@@ -1,21 +1,9 @@
-////
-//// Source code recreated from a .class file by IntelliJ IDEA
-//// (powered by FernFlower decompiler)
-////
-//
 //package model;
-//
-//import java.util.ArrayList;
-//import java.util.List;
 //
 //public class Department {
 //    private String id;
 //    private String name;
 //    private String hospitalId;
-//    private List<String> rooms = new ArrayList();
-//
-//    public Department() {
-//    }
 //
 //    public Department(String id, String name, String hospitalId) {
 //        this.id = id;
@@ -23,42 +11,26 @@
 //        this.hospitalId = hospitalId;
 //    }
 //
-//    public String getId() {
-//        return this.id;
-//    }
+//    public String getId() { return id; }
+//    public String getName() { return name; }
+//    public String getHospitalId() { return hospitalId; }
 //
-//    public void setId(String id) {
-//        this.id = id;
-//    }
-//
-//    public String getName() {
-//        return this.name;
-//    }
-//
-//    public void setName(String name) {
-//        this.name = name;
-//    }
-//
-//    public String getHospitalId() {
-//        return this.hospitalId;
-//    }
-//
-//    public void setHospitalId(String hospitalId) {
-//        this.hospitalId = hospitalId;
-//    }
-//
-//    public List<String> getRooms() {
-//        return this.rooms;
-//    }
 //}
+//
 
-// java
 package model;
 
 public class Department {
     private String id;
     private String name;
     private String hospitalId;
+    // You can add 'private List<String> rooms = new ArrayList();' here
+    // if you want, but the controller below doesn't use it yet.
+
+    // ✅ ADD THIS EMPTY CONSTRUCTOR
+    public Department() {
+        // Spring Boot needs this for form binding
+    }
 
     public Department(String id, String name, String hospitalId) {
         this.id = id;
@@ -66,9 +38,21 @@ public class Department {
         this.hospitalId = hospitalId;
     }
 
+    // --- Getters ---
     public String getId() { return id; }
     public String getName() { return name; }
     public String getHospitalId() { return hospitalId; }
 
-}
+    // ✅ ADD THESE MISSING SETTERS
+    public void setId(String id) {
+        this.id = id;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setHospitalId(String hospitalId) {
+        this.hospitalId = hospitalId;
+    }
+}
