@@ -1,8 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 package model;
 
 public class MedicalStaffAppointment {
@@ -41,5 +36,12 @@ public class MedicalStaffAppointment {
 
     public void setMedicalStaffId(String medicalStaffId) {
         this.medicalStaffId = medicalStaffId;
+    }
+
+    public enum Status {
+        SCHEDULED,
+        COMPLETED,
+        CANCELED,
+        RESCHEDULED
     }
 }

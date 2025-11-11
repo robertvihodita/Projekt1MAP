@@ -48,7 +48,6 @@ public class RoomController {
         System.out.print("Enter Room Number: ");
         String number = scanner.nextLine();
 
-        // ✅ Enum input for status
         System.out.print("Enter Status (AVAILABLE / OCCUPIED): ");
         RoomStatus status = RoomStatus.valueOf(scanner.nextLine().trim().toUpperCase());
 

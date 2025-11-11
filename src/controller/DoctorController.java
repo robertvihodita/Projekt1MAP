@@ -50,6 +50,7 @@ public class DoctorController {
         System.out.print("Enter License Number: ");
         String licenseNumber = scanner.nextLine();
 
+
         Doctor doctor = new Doctor(id, name, departmentId, licenseNumber);
         doctorService.addDoctor(doctor);
         System.out.println("✅ Doctor added successfully!");

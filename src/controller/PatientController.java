@@ -12,6 +12,10 @@ public class PatientController {
     }
 
     public void addPatient(Patient patient) {
+
+        Patient.Status statusFromString = Patient.Status.valueOf("DISCHARGED");
+        System.out.println("Converted from string: " + statusFromString);
+
         patientService.addPatient(patient);
         System.out.println("Added patient: " + patient.getName());
     }

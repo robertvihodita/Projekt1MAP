@@ -1,8 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 package model;
 
 import java.util.ArrayList;
@@ -12,8 +7,8 @@ public class Hospital {
     private String id;
     private String name;
     private String city;
-    private List<String> departments = new ArrayList();
-    private List<String> rooms = new ArrayList();
+    private List<Department> departments = new ArrayList<>();
+    private List<RoomType> rooms = new ArrayList<>();
 
     public Hospital() {
     }
@@ -48,11 +43,30 @@ public class Hospital {
         this.city = city;
     }
 
-    public List<String> getDepartments() {
+    public List<Department> getDepartments() {
         return this.departments;
     }
 
-    public List<String> getRooms() {
+    public List<RoomType> getRooms() {
         return this.rooms;
+    }
+
+    public enum Department {
+        CARDIOLOGY,
+        NEUROLOGY,
+        ONCOLOGY,
+        PEDIATRICS,
+        EMERGENCY,
+        RADIOLOGY,
+        ORTHOPEDICS
+    }
+
+    public enum RoomType {
+        ICU,
+        GENERAL,
+        PRIVATE,
+        SEMI_PRIVATE,
+        OPERATION_THEATER,
+        EMERGENCY_ROOM
     }
 }

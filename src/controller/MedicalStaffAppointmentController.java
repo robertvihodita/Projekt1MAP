@@ -47,6 +47,11 @@ public class MedicalStaffAppointmentController {
         String appointmentId = scanner.nextLine();
         System.out.print("Enter Medical Staff ID: ");
         String medicalStaffId = scanner.nextLine();
+        //enum usage example
+        MedicalStaffAppointment.Status statusFromString = MedicalStaffAppointment.Status.valueOf("SCHEDULED");
+        System.out.println("Converted from string: " + statusFromString);
+
+
 
         MedicalStaffAppointment appointment = new MedicalStaffAppointment(id, appointmentId, medicalStaffId);
         medicalStaffAppointmentService.addMedicalStaffAppointment(appointment);

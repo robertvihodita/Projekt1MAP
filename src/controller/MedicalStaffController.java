@@ -12,6 +12,9 @@ public class MedicalStaffController {
     }
 
     public void addStaff(MedicalStaff staff) {
+        MedicalStaff.Role roleFromString = MedicalStaff.Role.valueOf("DOCTOR");
+        System.out.println("Converted from string: " + roleFromString);
+
         medicalStaffService.addStaff(staff);
         System.out.println("Added staff: " + staff.getName());
     }

@@ -1,8 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 package model;
 
 import java.util.ArrayList;
@@ -11,7 +6,7 @@ import java.util.List;
 public class Patient {
     private String id;
     private String name;
-    private List<String> appointments = new ArrayList();
+    private List<String> appointments = new ArrayList<>();
 
     public Patient() {
     }
@@ -39,5 +34,12 @@ public class Patient {
 
     public List<String> getAppointments() {
         return this.appointments;
+    }
+
+    public enum Status {
+        ADMITTED,
+        DISCHARGED,
+        UNDER_OBSERVATION,
+        IN_TREATMENT
     }
 }

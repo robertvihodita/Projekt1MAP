@@ -1,8 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 package model;
 
 import java.util.ArrayList;
@@ -11,7 +6,7 @@ import java.util.List;
 public abstract class MedicalStaff {
     private String id;
     private String name;
-    private List<String> appointments = new ArrayList();
+    private List<String> appointments = new ArrayList<>();
     private String departmentId;
 
     public MedicalStaff() {
@@ -49,5 +44,14 @@ public abstract class MedicalStaff {
 
     public void setDepartmentId(String departmentId) {
         this.departmentId = departmentId;
+    }
+
+
+    public enum Role {
+        DOCTOR,
+        NURSE,
+        SURGEON,
+        THERAPIST,
+        TECHNICIAN
     }
 }

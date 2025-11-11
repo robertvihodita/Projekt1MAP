@@ -12,6 +12,13 @@ public class HospitalController {
     }
 
     public void addHospital(Hospital hospital) {
+        Hospital.Department departmentfromString = Hospital.Department.valueOf("CARDIOLOGY");
+        System.out.println("Converted from string: " + departmentfromString);
+
+        Hospital.RoomType roomTypeFromString = Hospital.RoomType.valueOf("EMERGENCY");
+        System.out.println("Converted from string: " + roomTypeFromString);
+
+
         hospitalService.addHospital(hospital);
         System.out.println("Hospital added: " + hospital.getName());
     }

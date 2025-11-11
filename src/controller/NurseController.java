@@ -49,10 +49,21 @@ public class NurseController {
         String departmentId = scanner.nextLine();
         System.out.print("Enter Qualification Level: ");
         String qualificationLevel = scanner.nextLine();
+        System.out.println("Select Shift:");
+        for (Nurse.Shift shift : Nurse.Shift.values()) {
+            System.out.println(shift.ordinal() + 1 + ". " + shift);
+        }
+        System.out.print("Enter choice: ");
+        int shiftChoice = Integer.parseInt(scanner.nextLine());
+        Nurse.Shift selectedShift = Nurse.Shift.values()[shiftChoice - 1];
+
 
         Nurse nurse = new Nurse(id, name, departmentId, qualificationLevel);
+        System.out.println("Assigned Shift: " + selectedShift);
         nurseService.addNurse(nurse);
         System.out.println("✅ Nurse added successfully!");
+
+
     }
 
     private void viewAllNurses() {
