@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Add Room</title></head>
+<body>
+<h1>Add Room</h1>
+
+<form th:action="@{/rooms}" th:object="${room}" method="post">
+    <label>ID: <input type="text" th:field="*{id}" /></label><br>
+    <label>Hospital ID: <input type="text" th:field="*{hospitalId}" /></label><br>
+    <label>Capacity: <input type="number" th:field="*{capacity}" /></label><br>
+    <label>Number: <input type="text" th:field="*{number}" /></label><br>
+    <label>Status: <input type="text" th:field="*{status}" /></label><br>
+    <button type="submit">Save</button>
+</form>
+
+<a th:href="@{/rooms}">Back</a>
+</body>
+</html>
