@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Medical Staff</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background: #f4f4f4; }
+        h1 { color: #333; }
+    </style>
+</head>
+<body>
+<h1>All Medical Staff</h1>
+
+<p><a href="/doctors">Manage Doctors</a> | <a href="/nurses">Manage Nurses</a></p>
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Department ID</th>
+        <th>License / Qualification</th>
+    </tr>
+
+    <tr th:each="s : ${medicalStaff}">
+        <td th:text="${s.getClass().getSimpleName()}"></td>
+        <td th:text="${s.id}"></td>
+        <td th:text="${s.name}"></td>
+        <td th:text="${s.departmentId}"></td>
+
+
+        <td>
+            <span th:if="${#fields.hasProperty(s, 'licenseNumber')}"
+                  th:text="${s.licenseNumber}"></span>
+            <span th:if="${#fields.hasProperty(s, 'qualificationLevel')}"
+                  th:text="${s.qualificationLevel}"></span>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>
