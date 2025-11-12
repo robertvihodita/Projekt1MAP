@@ -1,1 +1,47 @@
 
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Medical Staff List</title>
+</head>
+<body>
+<h1>Medical Staff List</h1>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Department ID</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Loop over the "staffList" from the controller -->
+    <tr th:each="staff : ${staffList}">
+        <td th:text="${staff.id}">S123</td>
+        <td th:text="${staff.name}">Dr. Smith</td>
+        <td th:text="${staff.departmentId}">ER</td>
+        <td>
+            <!--
+              This form sends a POST to /staff/{id}/delete
+              which matches your @PostMapping("/{id}/delete")
+            -->
+            <form th:action="@{'/staff/' + ${staff.id} + '/delete'}" method="post">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<br>
+<!--
+  Since MedicalStaff is abstract, we link to the specific "add" pages
+  for the concrete classes like Doctor and Nurse.
+-->
+<a th:href="@{/doctors/new}">Add New Doctor</a>
+<br>
+<a th:href="@{/nurses/new}">Add New Nurse</a>
+</body>
+</html>
