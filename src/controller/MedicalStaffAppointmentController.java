@@ -124,7 +124,7 @@ public class MedicalStaffAppointmentController {
     public String viewAllMedicalStaffAppointments(Model model) {
         List<MedicalStaffAppointment> appointments = medicalStaffAppointmentService.getAllMedicalStaffAppointments();
         model.addAttribute("appointments", appointments); // Send list to HTML
-        return "appointment/index"; // Loads "medical-staff-appointments.html"
+        return "medicalstaffappointment/index"; // Loads "medical-staff-appointments.html"
     }
 
     /**
@@ -134,7 +134,7 @@ public class MedicalStaffAppointmentController {
     @GetMapping("/add")
     public String showAddAppointmentForm(Model model) {
         model.addAttribute("appointment", new MedicalStaffAppointment()); // Send empty object
-        return "appointment/form"; // Loads "add-medical-staff-appointment.html"
+        return "medicalstaffappointment/form"; // Loads "add-medical-staff-appointment.html"
     }
 
     /**

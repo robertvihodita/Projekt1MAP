@@ -61,7 +61,7 @@ public class PatientController {
     public String showAllPatients(Model model) {
         List<Patient> patients = patientService.getAllPatients();
         model.addAttribute("patients", patients); // Send list to HTML
-        return "appointment/index"; // Loads "patients.html"
+        return "patient/index"; // Loads "patients.html"
     }
 
     /**
@@ -71,7 +71,7 @@ public class PatientController {
     @GetMapping("/add")
     public String showAddPatientForm(Model model) {
         model.addAttribute("patient", new Patient()); // Send empty object for the form
-        return "appointment/form"; // Loads "add-patient.html"
+        return "patient/form"; // Loads "add-patient.html"
     }
 
     /**

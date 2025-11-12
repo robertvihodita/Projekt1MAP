@@ -125,7 +125,7 @@ public class RoomController {
     public String viewAllRooms(Model model) {
         List<Room> rooms = roomService.getAllRooms();
         model.addAttribute("rooms", rooms); // Send list to HTML
-        return "appointment/index"; // Loads "rooms.html"
+        return "room/index"; // Loads "rooms.html"
     }
 
     /**
@@ -136,7 +136,7 @@ public class RoomController {
     public String showAddRoomForm(Model model) {
         model.addAttribute("room", new Room()); // Send empty object for the form
         model.addAttribute("statuses", Room.RoomStatus.values()); // Send list of statuses
-        return "appointment/form"; // Loads "add-room.html"
+        return "room/form"; // Loads "add-room.html"
     }
 
     /**

@@ -59,7 +59,7 @@ public class DepartmentController {
     public String showAllDepartments(Model model) {
         List<Department> departments = departmentService.getAllDepartments();
         model.addAttribute("departments", departments); // Send list to HTML
-        return "appointment/index"; // Loads "departments.html"
+        return "department/index"; // Loads "departments.html"
     }
 
     /**
@@ -69,7 +69,7 @@ public class DepartmentController {
     @GetMapping("/add")
     public String showAddDepartmentForm(Model model) {
         model.addAttribute("department", new Department()); // Send empty object for the form
-        return "appointment/form"; // Loads "add-department.html"
+        return "department/form"; // Loads "add-department.html"
     }
 
     /**
