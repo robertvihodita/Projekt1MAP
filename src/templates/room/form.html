@@ -9,7 +9,16 @@
     <label>Hospital ID: <input type="text" th:field="*{hospitalId}" /></label><br>
     <label>Capacity: <input type="number" th:field="*{capacity}" /></label><br>
     <label>Number: <input type="text" th:field="*{number}" /></label><br>
-    <label>Status: <input type="text" th:field="*{status}" /></label><br>
+
+    <label>Status:
+        <select th:field="*{status}">
+            <option th:each="stat : ${statuses}"
+                    th:value="${stat}"
+                    th:text="${stat}">
+            </option>
+        </select>
+    </label><br>
+
     <button type="submit">Save</button>
 </form>
 

@@ -24,20 +24,20 @@ public class RoomController {
         return "room/index";
     }
 
-    @GetMapping("/add")
+    @GetMapping("/new")
     public String showAddRoomForm(Model model) {
         model.addAttribute("room", new Room());
         model.addAttribute("statuses", Room.RoomStatus.values());
         return "room/form";
     }
 
-    @PostMapping("/add")
+    @PostMapping
     public String addRoom(@ModelAttribute Room room) {
         roomService.addRoom(room);
         return "redirect:/rooms";
     }
 
-    @GetMapping("/delete/{id}")
+    @PostMapping("/{id}/delete")
     public String deleteRoom(@PathVariable String id) {
         roomService.deleteRoom(id);
         return "redirect:/rooms";

@@ -9,7 +9,16 @@
     <label>Department ID: <input type="text" th:field="*{departmentId}" /></label><br>
     <label>Patient ID: <input type="text" th:field="*{patientId}" /></label><br>
     <label>Admission Date: <input type="text" th:field="*{admissionDate}" /></label><br>
-    <label>Status: <input type="text" th:field="*{status}" /></label><br>
+
+    <label>Status:
+        <select th:field="*{status}">
+            <option th:each="stat : ${statuses}"
+                    th:value="${stat}"
+                    th:text="${stat}">
+            </option>
+        </select>
+    </label><br>
+
     <button type="submit">Save</button>
 </form>
 

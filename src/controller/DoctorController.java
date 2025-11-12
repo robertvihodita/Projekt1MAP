@@ -18,8 +18,7 @@ public class DoctorController {
         this.doctorService = doctorService;
     }
 
-
-    @GetMapping
+@GetMapping
     public String viewAllDoctors(Model model) {
         List<Doctor> doctors = doctorService.getAllDoctors();
         model.addAttribute("doctors", doctors);
@@ -27,21 +26,21 @@ public class DoctorController {
     }
 
 
-    @GetMapping("/add")
+    @GetMapping("/new")
     public String showAddDoctorForm(Model model) {
         model.addAttribute("doctor", new Doctor());
         return "doctor/form";
     }
 
 
-    @PostMapping("/add")
+    @PostMapping
     public String addDoctor(@ModelAttribute Doctor doctor) {
         doctorService.addDoctor(doctor);
         return "redirect:/doctors";
     }
 
 
-    @GetMapping("/delete/{id}")
+    @PostMapping("/{id}/delete")
     public String deleteDoctor(@PathVariable String id) {
         doctorService.deleteDoctor(id);
         return "redirect:/doctors";

@@ -21,10 +21,10 @@ public class MedicalStaffController {
     public String showAllStaff(Model model) {
         List<MedicalStaff> staffList = medicalStaffService.getAllStaff();
         model.addAttribute("staffList", staffList);
-        return "medical-staff";
+        return "staff/index";
     }
 
-    @GetMapping("/delete/{id}")
+    @PostMapping("/{id}/delete")
     public String deleteStaff(@PathVariable String id) {
         medicalStaffService.deleteStaff(id);
         return "redirect:/staff";

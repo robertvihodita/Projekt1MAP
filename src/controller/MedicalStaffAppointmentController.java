@@ -25,19 +25,19 @@ public class MedicalStaffAppointmentController {
         return "medicalstaffappointment/index";
     }
 
-    @GetMapping("/add")
+    @GetMapping("/new")
     public String showAddAppointmentForm(Model model) {
         model.addAttribute("appointment", new MedicalStaffAppointment());
         return "medicalstaffappointment/form";
     }
 
-    @PostMapping("/add")
+    @PostMapping
     public String addMedicalStaffAppointment(@ModelAttribute MedicalStaffAppointment appointment) {
         medicalStaffAppointmentService.addMedicalStaffAppointment(appointment);
         return "redirect:/staff-appointments";
     }
 
-    @GetMapping("/delete/{id}")
+    @PostMapping("/{id}/delete")
     public String deleteMedicalStaffAppointment(@PathVariable String id) {
         medicalStaffAppointmentService.deleteMedicalStaffAppointment(id);
         return "redirect:/staff-appointments";
