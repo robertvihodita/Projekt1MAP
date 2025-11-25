@@ -17,7 +17,10 @@ public abstract class InFileRepository<T extends HasId> {
     private final Class<T> type;
 
     public InFileRepository(String filename, Class<T> type) {
-        this.filename = "src/main/resources/data/" + filename;
+        // FIX: Reverting to a more explicit path relative to the project structure
+        // This path is reliable when running from the IDE's project root via Maven/Spring Boot runner.
+        this.filename = "Projekt1MAP/src/resources/data/" + filename;
+
         this.objectMapper = new ObjectMapper();
         this.type = type;
         this.data = new ArrayList<>();
@@ -26,12 +29,19 @@ public abstract class InFileRepository<T extends HasId> {
 
     private void readFromFile() {
         File file = new File(filename);
+
+        // --- ADDED DEBUGGING ---
+        System.out.println("DEBUG: Attempting to load file at: " + file.getAbsolutePath());
+        // -----------------------
+
         if (!file.exists() || file.length() == 0) {
+            System.out.println("DEBUG: File not found or empty: " + file.getAbsolutePath());
             this.data = new ArrayList<>();
             return;
         }
         try {
             this.data = objectMapper.readValue(file, objectMapper.getTypeFactory().constructCollectionType(List.class, type));
+            System.out.println("DEBUG: Successfully loaded " + this.data.size() + " records from: " + file.getName());
         } catch (IOException e) {
             System.err.println("ERROR: Could not read from file: " + filename);
             e.printStackTrace();
@@ -51,6 +61,10 @@ public abstract class InFileRepository<T extends HasId> {
     public T save(String id, T entity) {
         data.removeIf(e -> e.getId().equals(id));
         data.add(entity);
+
+        // FIX: Calling writeToFile to persist the changes
+        writeToFile();
+
         return entity;
     }
 

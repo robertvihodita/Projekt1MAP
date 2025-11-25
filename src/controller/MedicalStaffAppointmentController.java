@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/staff-appointments")
+@RequestMapping("/staff-appointments") // Corrects the 404 error
 public class MedicalStaffAppointmentController {
 
     private final MedicalStaffAppointmentService medicalStaffAppointmentService;
@@ -21,7 +21,10 @@ public class MedicalStaffAppointmentController {
     @GetMapping
     public String viewAllMedicalStaffAppointments(Model model) {
         List<MedicalStaffAppointment> appointments = medicalStaffAppointmentService.getAllMedicalStaffAppointments();
-        model.addAttribute("appointments", appointments);
+
+        // FIX: The attribute name must match the one used in the Thymeleaf loop.
+        model.addAttribute("medicalstaffappointments", appointments);
+
         return "medicalstaffappointment/index";
     }
 
