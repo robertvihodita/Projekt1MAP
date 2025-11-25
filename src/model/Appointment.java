@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Appointment {
+public class Appointment implements HasId { // ADDED: implements HasId
     private String id;
     private String departmentId;
     private String patientId;
@@ -24,7 +24,14 @@ public class Appointment {
     }
 
 
+    @Override
     public String getId() { return id; }
+
+    @Override
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getDepartmentId() { return departmentId; }
     public String getPatientId() { return patientId; }
     public String getAdmissionDate() { return admissionDate; }
@@ -32,10 +39,6 @@ public class Appointment {
     public List<String> getMedicalStaffIds() { return medicalStaffIds; }
 
     public void setStatus(AppointmentStatus status) { this.status = status; }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public void setDepartmentId(String departmentId) {
         this.departmentId = departmentId;

@@ -1,0 +1,12 @@
+[
+  { "id": "A1", "departmentId": "D1", "patientId": "P1", "admissionDate": "2025-11-25 10:00", "status": "ACTIVE", "medicalStaffIds": ["DR1", "N1"] },
+  { "id": "A2", "departmentId": "D2", "patientId": "P2", "admissionDate": "2025-11-25 11:30", "status": "ACTIVE", "medicalStaffIds": ["DR2"] },
+  { "id": "A3", "departmentId": "D3", "patientId": "P3", "admissionDate": "2025-11-26 09:00", "status": "COMPLETED", "medicalStaffIds": ["N2"] },
+  { "id": "A4", "departmentId": "D1", "patientId": "P4", "admissionDate": "2025-11-26 14:00", "status": "ACTIVE", "medicalStaffIds": ["DR1"] },
+  { "id": "A5", "departmentId": "D2", "patientId": "P5", "admissionDate": "2025-11-27 08:00", "status": "ACTIVE", "medicalStaffIds": ["DR3", "N3"] },
+  { "id": "A6", "departmentId": "D3", "patientId": "P6", "admissionDate": "2025-11-27 16:00", "status": "COMPLETED", "medicalStaffIds": ["DR4"] },
+  { "id": "A7", "departmentId": "D1", "patientId": "P7", "admissionDate": "2025-11-28 10:00", "status": "ACTIVE", "medicalStaffIds": ["N4"] },
+  { "id": "A8", "departmentId": "D2", "patientId": "P8", "admissionDate": "2025-11-28 12:00", "status": "ACTIVE", "medicalStaffIds": ["DR5"] },
+  { "id": "A9", "departmentId": "D3", "patientId": "P9", "admissionDate": "2025-11-29 11:00", "status": "ACTIVE", "medicalStaffIds": ["DR6", "N5"] },
+  { "id": "A10", "departmentId": "D1", "patientId": "P10", "admissionDate": "2025-11-29 15:00", "status": "COMPLETED", "medicalStaffIds": [] }
+]

@@ -3,12 +3,12 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Hospital {
+public class Hospital implements HasId { // ADDED: implements HasId
     private String id;
     private String name;
     private String city;
-    private List<Department> departments = new ArrayList<>();
-    private List<RoomType> rooms = new ArrayList<>();
+    // NOTE: Removed `departments` and `rooms` Lists to simplify JSON/Jackson compatibility
+    // based on original model.
 
     public Hospital() {
     }
@@ -19,10 +19,12 @@ public class Hospital {
         this.city = city;
     }
 
+    @Override
     public String getId() {
         return this.id;
     }
 
+    @Override
     public void setId(String id) {
         this.id = id;
     }
@@ -41,32 +43,5 @@ public class Hospital {
 
     public void setCity(String city) {
         this.city = city;
-    }
-
-    public List<Department> getDepartments() {
-        return this.departments;
-    }
-
-    public List<RoomType> getRooms() {
-        return this.rooms;
-    }
-
-    public enum Department {
-        CARDIOLOGY,
-        NEUROLOGY,
-        ONCOLOGY,
-        PEDIATRICS,
-        EMERGENCY,
-        RADIOLOGY,
-        ORTHOPEDICS
-    }
-
-    public enum RoomType {
-        ICU,
-        GENERAL,
-        PRIVATE,
-        SEMI_PRIVATE,
-        OPERATION_THEATER,
-        EMERGENCY_ROOM
     }
 }

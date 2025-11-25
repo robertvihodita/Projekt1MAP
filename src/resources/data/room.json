@@ -1,0 +1,12 @@
+[
+  { "id": "R1", "hospitalId": "H1", "capacity": 1.0, "number": "101", "status": "AVAILABLE" },
+  { "id": "R2", "hospitalId": "H1", "capacity": 2.0, "number": "102", "status": "OCCUPIED" },
+  { "id": "R3", "hospitalId": "H1", "capacity": 4.0, "number": "103", "status": "AVAILABLE" },
+  { "id": "R4", "hospitalId": "H2", "capacity": 1.0, "number": "201", "status": "OCCUPIED" },
+  { "id": "R5", "hospitalId": "H2", "capacity": 2.0, "number": "202", "status": "AVAILABLE" },
+  { "id": "R6", "hospitalId": "H2", "capacity": 4.0, "number": "203", "status": "OCCUPIED" },
+  { "id": "R7", "hospitalId": "H3", "capacity": 1.0, "number": "301", "status": "AVAILABLE" },
+  { "id": "R8", "hospitalId": "H3", "capacity": 2.0, "number": "302", "status": "AVAILABLE" },
+  { "id": "R9", "hospitalId": "H3", "capacity": 1.0, "number": "401", "status": "OCCUPIED" },
+  { "id": "R10", "hospitalId": "H1", "capacity": 2.0, "number": "500", "status": "AVAILABLE" }
+]

@@ -1,6 +1,6 @@
 package model;
 
-public class Department {
+public class Department implements HasId { // ADDED: implements HasId
     private String id;
     private String name;
     private String hospitalId;
@@ -14,13 +14,17 @@ public class Department {
         this.hospitalId = hospitalId;
     }
 
-    public String getId() { return id; }
-    public String getName() { return name; }
-    public String getHospitalId() { return hospitalId; }
 
+    @Override
+    public String getId() { return id; }
+
+    @Override
     public void setId(String id) {
         this.id = id;
     }
+
+    public String getName() { return name; }
+    public String getHospitalId() { return hospitalId; }
 
     public void setName(String name) {
         this.name = name;

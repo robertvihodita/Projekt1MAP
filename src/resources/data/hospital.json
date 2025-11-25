@@ -1,0 +1,12 @@
+[
+  { "id": "H1", "name": "City General", "city": "New York" },
+  { "id": "H2", "name": "St. Jude's", "city": "Los Angeles" },
+  { "id": "H3", "name": "County Health", "city": "Chicago" },
+  { "id": "H4", "name": "Memorial Center", "city": "Dallas" },
+  { "id": "H5", "name": "First Care", "city": "Miami" },
+  { "id": "H6", "name": "Regional Hospital", "city": "Boston" },
+  { "id": "H7", "name": "Veterans Hospital", "city": "Seattle" },
+  { "id": "H8", "name": "Children's Clinic", "city": "Denver" },
+  { "id": "H9", "name": "Bay Area Clinic", "city": "San Francisco" },
+  { "id": "H10", "name": "Northwest Medical", "city": "Portland" }
+]

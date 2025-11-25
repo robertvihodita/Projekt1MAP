@@ -1,6 +1,6 @@
 package model;
 
-public class MedicalStaffAppointment {
+public class MedicalStaffAppointment implements HasId { // ADDED: implements HasId
     private String id;
     private String appointmentId;
     private String medicalStaffId;
@@ -14,10 +14,12 @@ public class MedicalStaffAppointment {
         this.medicalStaffId = medicalStaffId;
     }
 
+    @Override
     public String getId() {
         return this.id;
     }
 
+    @Override
     public void setId(String id) {
         this.id = id;
     }

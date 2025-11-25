@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Patient {
+public class Patient implements HasId { // ADDED: implements HasId
     private String id;
     private String name;
     private List<String> appointments = new ArrayList<>();
@@ -16,10 +16,12 @@ public class Patient {
         this.name = name;
     }
 
+    @Override
     public String getId() {
         return this.id;
     }
 
+    @Override
     public void setId(String id) {
         this.id = id;
     }

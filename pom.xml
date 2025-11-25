@@ -17,15 +17,13 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.4</version> <!-- or whatever version you want -->
-        <relativePath/> <!-- lookup parent from repository -->
-    </parent>
+        <version>3.3.4</version>
+        <relativePath/> </parent>
 
     <properties>
         <java.version>17</java.version>
     </properties>
 
-    <!-- dependencies (Robert) -->
     <dependencies>
 
         <dependency>
@@ -36,6 +34,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
         </dependency>
 
         <dependency>
@@ -52,7 +55,6 @@
 
     </dependencies>
 
-    <!-- ✅ build section must be inside <project>, after dependencies -->
     <build>
         <sourceDirectory>src</sourceDirectory>
 
@@ -68,6 +70,13 @@
                 <directory>src</directory>
                 <includes>
                     <include>application.properties</include>
+                </includes>
+            </resource>
+
+            <resource>
+                <directory>src/main/resources/data</directory>
+                <includes>
+                    <include>**/*.json</include>
                 </includes>
             </resource>
 

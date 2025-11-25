@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Room {
+public class Room implements HasId { // ADDED: implements HasId
     private String id;
     private String hospitalId;
     private double capacity;
@@ -22,7 +22,15 @@ public class Room {
         this.status = status;
     }
 
+
+    @Override
     public String getId() { return id; }
+
+    @Override
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getHospitalId() { return hospitalId; }
     public double getCapacity() { return capacity; }
     public String getNumber() { return number; }
@@ -30,10 +38,6 @@ public class Room {
     public List<String> getAppointmentIds() { return appointmentIds; }
 
     public void setStatus(RoomStatus status) { this.status = status; }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public void setHospitalId(String hospitalId) {
         this.hospitalId = hospitalId;

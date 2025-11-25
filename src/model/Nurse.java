@@ -1,6 +1,9 @@
 package model;
 
-public class Nurse extends MedicalStaff {
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Nurse extends MedicalStaff implements HasId {
     private String qualificationLevel;
 
     public Nurse() {
@@ -19,7 +22,6 @@ public class Nurse extends MedicalStaff {
     public void setQualificationLevel(String qualificationLevel) {
         this.qualificationLevel = qualificationLevel;
     }
-
 
     public enum Shift {
         MORNING,

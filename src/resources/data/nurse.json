@@ -1,0 +1,12 @@
+[
+  { "id": "N1", "name": "Nurse Kelly", "departmentId": "D1", "qualificationLevel": "RN" },
+  { "id": "N2", "name": "Nurse Adams", "departmentId": "D3", "qualificationLevel": "LPN" },
+  { "id": "N3", "name": "Nurse Baker", "departmentId": "D2", "qualificationLevel": "RN" },
+  { "id": "N4", "name": "Nurse Clark", "departmentId": "D5", "qualificationLevel": "RN" },
+  { "id": "N5", "name": "Nurse Evans", "departmentId": "D3", "qualificationLevel": "LPN" },
+  { "id": "N6", "name": "Nurse Green", "departmentId": "D1", "qualificationLevel": "RN" },
+  { "id": "N7", "name": "Nurse Hall", "departmentId": "D4", "qualificationLevel": "RN" },
+  { "id": "N8", "name": "Nurse King", "departmentId": "D6", "qualificationLevel": "CNA" },
+  { "id": "N9", "name": "Nurse Lewis", "departmentId": "D7", "qualificationLevel": "RN" },
+  { "id": "N10", "name": "Nurse Moore", "departmentId": "D8", "qualificationLevel": "LPN" }
+]

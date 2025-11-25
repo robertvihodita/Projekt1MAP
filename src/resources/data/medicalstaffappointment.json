@@ -1,0 +1,12 @@
+[
+  { "id": "MSA1", "appointmentId": "A1", "medicalStaffId": "DR1" },
+  { "id": "MSA2", "appointmentId": "A1", "medicalStaffId": "N1" },
+  { "id": "MSA3", "appointmentId": "A2", "medicalStaffId": "DR2" },
+  { "id": "MSA4", "appointmentId": "A3", "medicalStaffId": "N2" },
+  { "id": "MSA5", "appointmentId": "A4", "medicalStaffId": "DR1" },
+  { "id": "MSA6", "appointmentId": "A5", "medicalStaffId": "DR3" },
+  { "id": "MSA7", "appointmentId": "A5", "medicalStaffId": "N3" },
+  { "id": "MSA8", "appointmentId": "A6", "medicalStaffId": "DR4" },
+  { "id": "MSA9", "appointmentId": "A7", "medicalStaffId": "N4" },
+  { "id": "MSA10", "appointmentId": "A8", "medicalStaffId": "DR5" }
+]

@@ -1,0 +1,12 @@
+[
+  { "id": "DR1", "name": "Dr. Smith", "departmentId": "D1", "licenseNumber": "L-1001" },
+  { "id": "DR2", "name": "Dr. Jones", "departmentId": "D2", "licenseNumber": "L-1002" },
+  { "id": "DR3", "name": "Dr. Williams", "departmentId": "D2", "licenseNumber": "L-1003" },
+  { "id": "DR4", "name": "Dr. Brown", "departmentId": "D3", "licenseNumber": "L-1004" },
+  { "id": "DR5", "name": "Dr. Garcia", "departmentId": "D5", "licenseNumber": "L-1005" },
+  { "id": "DR6", "name": "Dr. Miller", "departmentId": "D3", "licenseNumber": "L-1006" },
+  { "id": "DR7", "name": "Dr. Davis", "departmentId": "D1", "licenseNumber": "L-1007" },
+  { "id": "DR8", "name": "Dr. Rodriguez", "departmentId": "D4", "licenseNumber": "L-1008" },
+  { "id": "DR9", "name": "Dr. Martinez", "departmentId": "D6", "licenseNumber": "L-1009" },
+  { "id": "DR10", "name": "Dr. Hernandez", "departmentId": "D7", "licenseNumber": "L-1010" }
+]

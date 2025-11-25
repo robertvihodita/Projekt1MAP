@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class MedicalStaff {
+public abstract class MedicalStaff implements HasId { // ADDED: implements HasId
     private String id;
     private String name;
     private List<String> appointments = new ArrayList<>();
@@ -18,10 +18,12 @@ public abstract class MedicalStaff {
         this.departmentId = departmentId;
     }
 
+    @Override
     public String getId() {
         return this.id;
     }
 
+    @Override
     public void setId(String id) {
         this.id = id;
     }
