@@ -6,7 +6,10 @@ import jakarta.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.Set;
 
-@MappedSuperclass // This class will not have its own table
+
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED) // Creates a base table and joins subclass tables
+@Table(name = "medical_staff")
 public abstract class MedicalStaff implements HasId {
 
     @Id
@@ -16,12 +19,12 @@ public abstract class MedicalStaff implements HasId {
     @NotBlank(message = "Staff name is required")
     private String name;
 
-    // RELATIONSHIP: Many-to-One with Department
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id")
     private Department department;
 
-    // RELATIONSHIP: Many-to-Many with Appointment via MedicalStaffAppointment
+    // RELATIONSHIP: One-to-Many with MedicalStaffAppointment
     @OneToMany(mappedBy = "medicalStaff", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<MedicalStaffAppointment> appointmentAssignments = new HashSet<>();
 
@@ -30,10 +33,9 @@ public abstract class MedicalStaff implements HasId {
 
     public MedicalStaff(String name, String departmentId) {
         this.name = name;
-        // The department property must be set via the object, not the ID string
     }
 
-    // --- Getters and Setters ---
+
 
     @Override
     public String getId() { return this.id; }
@@ -50,13 +52,5 @@ public abstract class MedicalStaff implements HasId {
     public Set<MedicalStaffAppointment> getAppointmentAssignments() { return appointmentAssignments; }
     public void setAppointmentAssignments(Set<MedicalStaffAppointment> appointmentAssignments) { this.appointmentAssignments = appointmentAssignments; }
 
-    // Removed the simple String departmentId field and List<String> appointments
-
-    public enum Role {
-        DOCTOR,
-        NURSE,
-        SURGEON,
-        THERAPIST,
-        TECHNICIAN
-    }
+    public abstract String getRole();
 }
