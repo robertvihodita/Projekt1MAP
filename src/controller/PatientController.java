@@ -4,9 +4,12 @@ import service.PatientService;
 import model.Patient;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/patients")
@@ -29,12 +32,28 @@ public class PatientController {
     @GetMapping("/new")
     public String showAddPatientForm(Model model) {
         model.addAttribute("patient", new Patient());
+        model.addAttribute("statuses", Patient.Status.values());
         return "patient/form";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String showEditPatientForm(@PathVariable String id, Model model) {
+        Optional<Patient> patient = patientService.getPatientById(id);
+        if (patient.isPresent()) {
+            model.addAttribute("patient", patient.get());
+            model.addAttribute("statuses", Patient.Status.values());
+            return "patient/form";
+        }
+        return "redirect:/patients";
     }
 
 
     @PostMapping
-    public String addPatient(@ModelAttribute Patient patient) {
+    public String addPatient(@Valid @ModelAttribute("patient") Patient patient,
+                             BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "patient/form";
+        }
         patientService.addPatient(patient);
         return "redirect:/patients";
     }

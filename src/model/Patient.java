@@ -1,42 +1,51 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.List;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
-public class Patient implements HasId { // ADDED: implements HasId
+import java.util.HashSet;
+import java.util.Set;
+
+@Entity
+@Table(name = "patients")
+public class Patient implements HasId {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
+
+    @NotBlank(message = "Patient name is required")
+    @Size(min = 2, max = 100, message = "Name must be between 2 and 100 characters")
     private String name;
-    private List<String> appointments = new ArrayList<>();
+
+    @Enumerated(EnumType.STRING)
+    private Status status = Status.ADMITTED; // Set a default status
+
+    // RELATIONSHIP: One-to-Many with Appointment
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Appointment> appointments = new HashSet<>();
 
     public Patient() {
     }
 
-    public Patient(String id, String name) {
-        this.id = id;
-        this.name = name;
-    }
+    // --- Getters and Setters ---
 
     @Override
-    public String getId() {
-        return this.id;
-    }
-
+    public String getId() { return this.id; }
     @Override
-    public void setId(String id) {
-        this.id = id;
-    }
+    public void setId(String id) { this.id = id; }
 
-    public String getName() {
-        return this.name;
-    }
+    public String getName() { return this.name; }
+    public void setName(String name) { this.name = name; }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public Set<Appointment> getAppointments() { return appointments; }
+    public void setAppointments(Set<Appointment> appointments) { this.appointments = appointments; }
 
-    public List<String> getAppointments() {
-        return this.appointments;
-    }
+    public Status getStatus() { return status; }
+    public void setStatus(Status status) { this.status = status; }
+
+    // Removed the simple List<String> appointments
 
     public enum Status {
         ADMITTED,

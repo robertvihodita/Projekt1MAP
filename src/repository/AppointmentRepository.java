@@ -1,11 +1,11 @@
 package repository;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import model.Appointment;
 
 @Repository
-public class AppointmentRepository extends InFileRepository<Appointment> {
-    public AppointmentRepository() {
-        super("appointment.json", Appointment.class);
-    }
+public interface AppointmentRepository extends JpaRepository<Appointment, String> {
+    // Custom query methods can be added here if needed,
+    // e.g., List<Appointment> findByPatientId(String patientId);
 }

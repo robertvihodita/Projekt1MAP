@@ -1,16 +1,83 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Add Medical Staff Appointment</title></head>
+<head>
+    <title th:text="${appointment.id == null ? 'Assign Staff to Appointment' : 'Edit Staff Assignment'}"></title>
+    <style>
+        .error-message {
+            color: red;
+            font-size: 0.9em;
+            margin-left: 10px;
+        }
+        .global-error {
+            color: darkred;
+            font-weight: bold;
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid darkred;
+            background-color: #ffe0e0;
+        }
+    </style>
+</head>
 <body>
-<h1>Add Medical Staff Appointment</h1>
+
+<h1 th:text="${appointment.id == null ? 'Assign Staff to Appointment' : 'Edit Staff Assignment (' + appointment.id + ')'}"></h1>
+
+<div th:if="${globalError}" class="global-error">
+    <p th:text="${globalError}"></p>
+</div>
+<div th:if="${#fields.hasGlobalErrors()}" class="global-error">
+    <p th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
+</div>
 
 <form th:action="@{/staff-appointments}" th:object="${appointment}" method="post">
-    <label>ID: <input type="text" th:field="*{id}" /></label><br>
-    <label>Appointment ID: <input type="text" th:field="*{appointmentId}" /></label><br>
-    <label>Medical Staff ID: <input type="text" th:field="*{medicalStaffId}" /></label><br>
-    <button type="submit">Save</button>
+    <input type="hidden" th:field="*{id}" th:if="${appointment.id != null}" />
+
+    <div>
+        <label for="appointment">Appointment:</label>
+        <select id="appointment" th:field="*{appointment}">
+            <option th:value="null" disabled selected>-- Select Appointment --</option>
+            <option th:each="a : ${appointments}"
+                    th:value="${a.id}"
+                    th:text="${'ID: ' + a.id + ' | Patient: ' + a.patient.name + ' | Date: ' + #temporals.format(a.admissionDate, 'dd-MM HH:mm')}"
+                    th:selected="${appointment.appointment != null and appointment.appointment.id == a.id}">
+            </option>
+        </select>
+        <span th:if="${#fields.hasErrors('appointment')}" th:errors="*{appointment}" class="error-message"></span>
+    </div>
+    <br/>
+
+    <div>
+        <label for="medicalStaff">Medical Staff:</label>
+        <select id="medicalStaff" th:field="*{medicalStaff}">
+            <option th:value="null" disabled selected>-- Select Staff Member --</option>
+            <option th:each="ms : ${medicalStaffList}"
+                    th:value="${ms.id}"
+                    th:text="${ms.name + ' (' + ms.getClass().getSimpleName() + ')'}"
+                    th:selected="${appointment.medicalStaff != null and appointment.medicalStaff.id == ms.id}">
+            </option>
+        </select>
+        <span th:if="${#fields.hasErrors('medicalStaff')}" th:errors="*{medicalStaff}" class="error-message"></span>
+    </div>
+    <br/>
+
+    <div>
+        <label for="status">Assignment Status:</label>
+        <select id="status" th:field="*{status}">
+            <option th:each="stat : ${T(model.MedicalStaffAppointment.Status).values()}"
+                    th:value="${stat}"
+                    th:text="${stat}">
+            </option>
+        </select>
+        <span th:if="${#fields.hasErrors('status')}" th:errors="*{status}" class="error-message"></span>
+    </div>
+    <br/>
+
+    <div>
+        <button type="submit" th:text="${appointment.id == null ? 'Assign Staff' : 'Update Assignment'}"></button>
+    </div>
 </form>
 
-<a th:href="@{/staff-appointments}">Back</a>
+<br/>
+<a th:href="@{/staff-appointments}">Back to List</a>
 </body>
 </html>

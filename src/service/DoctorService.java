@@ -15,19 +15,23 @@ public class DoctorService {
         this.doctorRepository = doctorRepository;
     }
 
+    // UPDATED: JPA save uses save(T entity)
     public Doctor addDoctor(Doctor doctor) {
-        return doctorRepository.save(doctor.getId(), doctor);
+        return doctorRepository.save(doctor);
     }
 
+    // OK: findAll() method signature is the same
     public List<Doctor> getAllDoctors() {
         return doctorRepository.findAll();
     }
 
+    // OK: findById(ID id) method signature is the same
     public Optional<Doctor> getDoctorById(String id) {
         return doctorRepository.findById(id);
     }
 
+    // UPDATED: JPA delete is deleteById(ID id)
     public void deleteDoctor(String id) {
-        doctorRepository.delete(id);
+        doctorRepository.deleteById(id);
     }
 }

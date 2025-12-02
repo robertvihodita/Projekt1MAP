@@ -1,20 +1,29 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Departments</title></head>
+<head>
+    <title>Departments</title>
+</head>
 <body>
 <h1>Departments</h1>
 
 <a th:href="@{/departments/new}">Add new Department</a>
 
 <table border="1">
-    <tr><th>ID</th><th>Name</th><th>Hospital ID</th><th>Action</th></tr>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Hospital</th>
+        <th>Action</th>
+    </tr>
     <tr th:each="d : ${departments}">
         <td th:text="${d.id}"></td>
         <td th:text="${d.name}"></td>
-        <td th:text="${d.hospitalId}"></td>
+        <td th:text="${d.hospital.name}"></td>
         <td>
-            <form th:action="@{'/departments/' + ${d.id} + '/delete'}" method="post">
-                <button type="submit">Delete</button>
+            <a th:href="@{'/departments/' + ${d.id} + '/edit'}">Edit</a>
+            |
+            <form th:action="@{'/departments/' + ${d.id} + '/delete'}" method="post" style="display:inline;">
+                <button type="submit" onclick="return confirm('Are you sure you want to delete this department?');">Delete</button>
             </form>
         </td>
     </tr>

@@ -15,19 +15,23 @@ public class MedicalStaffAppointmentService {
         this.medicalStaffAppointmentRepository = medicalStaffAppointmentRepository;
     }
 
+    // UPDATED: JPA save uses save(T entity)
     public MedicalStaffAppointment addMedicalStaffAppointment(MedicalStaffAppointment appointment) {
-        return medicalStaffAppointmentRepository.save(appointment.getId(), appointment);
+        return medicalStaffAppointmentRepository.save(appointment);
     }
 
+    // OK: findAll() method signature is the same
     public List<MedicalStaffAppointment> getAllMedicalStaffAppointments() {
         return medicalStaffAppointmentRepository.findAll();
     }
 
+    // OK: findById(ID id) method signature is the same
     public Optional<MedicalStaffAppointment> getMedicalStaffAppointmentById(String id) {
         return medicalStaffAppointmentRepository.findById(id);
     }
 
+    // UPDATED: JPA delete is deleteById(ID id)
     public void deleteMedicalStaffAppointment(String id) {
-        medicalStaffAppointmentRepository.delete(id);
+        medicalStaffAppointmentRepository.deleteById(id);
     }
 }

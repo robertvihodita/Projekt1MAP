@@ -1,11 +1,9 @@
 package repository;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import model.Patient;
 
 @Repository
-public class PatientRepository extends InFileRepository<Patient> {
-    public PatientRepository() {
-        super("patient.json", Patient.class);
-    }
+public interface PatientRepository extends JpaRepository<Patient, String> {
 }

@@ -1,16 +1,64 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Add Department</title></head>
+<head>
+    <title th:text="${department.id == null ? 'Add New Department' : 'Edit Department'}"></title>
+    <style>
+        .error-message {
+            color: red;
+            font-size: 0.9em;
+            margin-left: 10px;
+        }
+        .global-error {
+            color: darkred;
+            font-weight: bold;
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid darkred;
+            background-color: #ffe0e0;
+        }
+    </style>
+</head>
 <body>
-<h1>Add Department</h1>
+
+<h1 th:text="${department.id == null ? 'Add New Department' : 'Edit Department (' + department.id + ')'}"></h1>
+
+<div th:if="${globalError}" class="global-error">
+    <p th:text="${globalError}"></p>
+</div>
+<div th:if="${#fields.hasGlobalErrors()}" class="global-error">
+    <p th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
+</div>
 
 <form th:action="@{/departments}" th:object="${department}" method="post">
-    <label>ID: <input type="text" th:field="*{id}" /></label><br>
-    <label>Name: <input type="text" th:field="*{name}" /></label><br>
-    <label>Hospital ID: <input type="text" th:field="*{hospitalId}" /></label><br>
-    <button type="submit">Save</button>
+    <input type="hidden" th:field="*{id}" th:if="${department.id != null}" />
+
+    <div>
+        <label for="name">Name:</label>
+        <input type="text" id="name" th:field="*{name}" />
+        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error-message"></span>
+    </div>
+    <br/>
+
+    <div>
+        <label for="hospital">Hospital:</label>
+        <select id="hospital" th:field="*{hospital}">
+            <option th:value="null" disabled selected>-- Select Hospital --</option>
+            <option th:each="h : ${hospitals}"
+                    th:value="${h.id}"
+                    th:text="${h.name + ' (' + h.city + ')'}"
+                    th:selected="${department.hospital != null and department.hospital.id == h.id}">
+            </option>
+        </select>
+        <span th:if="${#fields.hasErrors('hospital')}" th:errors="*{hospital}" class="error-message"></span>
+    </div>
+    <br/>
+
+    <div>
+        <button type="submit" th:text="${department.id == null ? 'Add Department' : 'Update Department'}"></button>
+    </div>
 </form>
 
-<a th:href="@{/departments}">Back</a>
+<br/>
+<a th:href="@{/departments}">Back to List</a>
 </body>
 </html>

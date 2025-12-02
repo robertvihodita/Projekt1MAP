@@ -1,20 +1,31 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Medical Staff Appointments</title></head>
+<head>
+    <title>Medical Staff Assignments</title>
+</head>
 <body>
-<h1>Medical Staff Appointments</h1>
+<h1>Medical Staff Assignments</h1>
 
-<a th:href="@{/medicalstaffappointments/new}">Add new MSA</a>
+<a th:href="@{/staff-appointments/new}">Assign New Staff Member</a>
 
 <table border="1">
-    <tr><th>ID</th><th>Appointment ID</th><th>Staff ID</th><th>Action</th></tr>
+    <tr>
+        <th>ID</th>
+        <th>Appointment Details</th>
+        <th>Staff Member</th>
+        <th>Status</th>
+        <th>Action</th>
+    </tr>
     <tr th:each="m : ${medicalstaffappointments}">
         <td th:text="${m.id}"></td>
-        <td th:text="${m.appointmentId}"></td>
-        <td th:text="${m.medicalStaffId}"></td>
+        <td th:text="${'Patient: ' + m.appointment.patient.name + ' | Date: ' + #temporals.format(m.appointment.admissionDate, 'dd-MM HH:mm')}"></td>
+        <td th:text="${m.medicalStaff.name + ' (' + m.medicalStaff.getClass().getSimpleName() + ')'}"></td>
+        <td th:text="${m.status}"></td>
         <td>
-            <form th:action="@{'/medicalstaffappointments/' + ${m.id} + '/delete'}" method="post">
-                <button type="submit">Delete</button>
+            <a th:href="@{'/staff-appointments/' + ${m.id} + '/edit'}">Edit</a>
+            |
+            <form th:action="@{'/staff-appointments/' + ${m.id} + '/delete'}" method="post" style="display:inline;">
+                <button type="submit" onclick="return confirm('Are you sure you want to delete this assignment?');">Delete</button>
             </form>
         </td>
     </tr>

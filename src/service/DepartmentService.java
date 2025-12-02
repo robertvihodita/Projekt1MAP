@@ -15,19 +15,23 @@ public class DepartmentService {
         this.departmentRepository = departmentRepository;
     }
 
+    // UPDATED: JPA save uses save(T entity)
     public Department addDepartment(Department department) {
-        return departmentRepository.save(department.getId(), department);
+        return departmentRepository.save(department);
     }
 
+    // OK: findAll() method signature is the same
     public List<Department> getAllDepartments() {
         return departmentRepository.findAll();
     }
 
+    // OK: findById(ID id) method signature is the same
     public Optional<Department> getDepartmentById(String id) {
         return departmentRepository.findById(id);
     }
 
+    // UPDATED: JPA delete is deleteById(ID id)
     public void deleteDepartment(String id) {
-        departmentRepository.delete(id);
+        departmentRepository.deleteById(id);
     }
 }

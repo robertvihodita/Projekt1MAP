@@ -1,15 +1,62 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Add Patient</title></head>
+<head>
+    <title th:text="${patient.id == null ? 'Add New Patient' : 'Edit Patient'}"></title>
+    <style>
+        .error-message {
+            color: red;
+            font-size: 0.9em;
+            margin-left: 10px;
+        }
+        .global-error {
+            color: darkred;
+            font-weight: bold;
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid darkred;
+            background-color: #ffe0e0;
+        }
+    </style>
+</head>
 <body>
-<h1>Add Patient</h1>
+
+<h1 th:text="${patient.id == null ? 'Add New Patient' : 'Edit Patient (' + patient.id + ')'}"></h1>
+
+<div th:if="${globalError}" class="global-error">
+    <p th:text="${globalError}"></p>
+</div>
+<div th:if="${#fields.hasGlobalErrors()}" class="global-error">
+    <p th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
+</div>
 
 <form th:action="@{/patients}" th:object="${patient}" method="post">
-    <label>ID: <input type="text" th:field="*{id}" /></label><br>
-    <label>Name: <input type="text" th:field="*{name}" /></label><br>
-    <button type="submit">Save</button>
+    <input type="hidden" th:field="*{id}" th:if="${patient.id != null}" />
+
+    <div>
+        <label for="name">Name:</label>
+        <input type="text" id="name" th:field="*{name}" />
+        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error-message"></span>
+    </div>
+    <br/>
+
+    <div>
+        <label for="status">Status:</label>
+        <select id="status" th:field="*{status}">
+            <option th:each="s : ${statuses}"
+                    th:value="${s}"
+                    th:text="${s}">
+            </option>
+        </select>
+        <span th:if="${#fields.hasErrors('status')}" th:errors="*{status}" class="error-message"></span>
+    </div>
+    <br/>
+
+    <div>
+        <button type="submit" th:text="${patient.id == null ? 'Add Patient' : 'Update Patient'}"></button>
+    </div>
 </form>
 
-<a th:href="@{/patients}">Back</a>
+<br/>
+<a th:href="@{/patients}">Back to List</a>
 </body>
 </html>

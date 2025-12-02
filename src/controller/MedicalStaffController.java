@@ -20,13 +20,13 @@ public class MedicalStaffController {
     @GetMapping
     public String showAllStaff(Model model) {
         List<MedicalStaff> staffList = medicalStaffService.getAllStaff();
-        model.addAttribute("MedicalStaff", staffList);
-        return "medicalstaff/index.html";
+        model.addAttribute("staffList", staffList); // Changed attribute name for clarity
+        return "medicalstaff/index";
     }
 
     @PostMapping("/{id}/delete")
     public String deleteStaff(@PathVariable String id) {
         medicalStaffService.deleteStaff(id);
-        return "redirect:/medicalstaff";
+        return "redirect:/staff"; // Changed redirect to correct mapping
     }
 }
