@@ -19,7 +19,7 @@ public class MedicalStaffAppointmentController {
 
     private final MedicalStaffAppointmentService medicalStaffAppointmentService;
     private final AppointmentService appointmentService;
-    private final MedicalStaffService medicalStaffService; // For selecting Doctor/Nurse
+    private final MedicalStaffService medicalStaffService;
 
     public MedicalStaffAppointmentController(MedicalStaffAppointmentService medicalStaffAppointmentService,
                                              AppointmentService appointmentService,

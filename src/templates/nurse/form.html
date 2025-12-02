@@ -3,33 +3,22 @@
 <head>
     <title th:text="${nurse.id == null ? 'Add New Nurse' : 'Edit Nurse'}"></title>
     <style>
-        .error-message {
-            color: red;
-            font-size: 0.9em;
-            margin-left: 10px;
-        }
-        .global-error {
-            color: darkred;
-            font-weight: bold;
-            margin-bottom: 15px;
-            padding: 10px;
-            border: 1px solid darkred;
-            background-color: #ffe0e0;
-        }
+        .error-message { color: red; font-size: 0.9em; margin-left: 10px; }
+        .global-error { color: darkred; font-weight: bold; margin-bottom: 15px; padding: 10px; border: 1px solid darkred; background-color: #ffe0e0; }
     </style>
 </head>
 <body>
 
 <h1 th:text="${nurse.id == null ? 'Add New Nurse' : 'Edit Nurse (' + nurse.id + ')'}"></h1>
 
-<div th:if="${globalError}" class="global-error">
-    <p th:text="${globalError}"></p>
-</div>
-<div th:if="${#fields.hasGlobalErrors()}" class="global-error">
-    <p th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
-</div>
-
 <form th:action="@{/nurses}" th:object="${nurse}" method="post">
+    <div th:if="${globalError}" class="global-error">
+        <p th:text="${globalError}"></p>
+    </div>
+    <div th:if="${#fields.hasGlobalErrors()}" class="global-error">
+        <p th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
+    </div>
+
     <input type="hidden" th:field="*{id}" th:if="${nurse.id != null}" />
 
     <div>

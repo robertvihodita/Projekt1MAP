@@ -1,83 +1,21 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title th:text="${nurse.id == null ? 'Add New Nurse' : 'Edit Nurse'}"></title>
-    <style>
-        .error-message {
-            color: red;
-            font-size: 0.9em;
-            margin-left: 10px;
-        }
-        .global-error {
-            color: darkred;
-            font-weight: bold;
-            margin-bottom: 15px;
-            padding: 10px;
-            border: 1px solid darkred;
-            background-color: #ffe0e0;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <title>Hospital Management</title>
 </head>
 <body>
+<h1>Hospital Management System</h1>
 
-<h1 th:text="${nurse.id == null ? 'Add New Nurse' : 'Edit Nurse (' + nurse.id + ')'}"></h1>
+<p><a th:href="@{/hospitals}">View Hospitals</a></p>
+<p><a th:href="@{/departments}">View Departments</a></p>
+<p><a th:href="@{/rooms}">View Rooms</a></p>
+<p><a th:href="@{/doctors}">View Doctors</a></p>
+<p><a th:href="@{/nurses}">View Nurses</a></p>
+<p><a th:href="@{/staff}">View All Medical Staff</a></p>
+<p><a th:href="@{/patients}">View Patients</a></p>
+<p><a th:href="@{/appointments}">View Appointments</a></p>
+<p><a th:href="@{/staff-appointments}">View Staff Assignments</a></p>
 
-<div th:if="${globalError}" class="global-error">
-    <p th:text="${globalError}"></p>
-</div>
-<div th:if="${#fields.hasGlobalErrors()}" class="global-error">
-    <p th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
-</div>
-
-<form th:action="@{/nurses}" th:object="${nurse}" method="post">
-    <input type="hidden" th:field="*{id}" th:if="${nurse.id != null}" />
-
-    <div>
-        <label for="name">Name:</label>
-        <input type="text" id="name" th:field="*{name}" />
-        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error-message"></span>
-    </div>
-    <br/>
-
-    <div>
-        <label for="department">Department:</label>
-        <select id="department" th:field="*{department}">
-            <option th:value="null" disabled selected>-- Select Department --</option>
-            <option th:each="dept : ${departments}"
-                    th:value="${dept.id}"
-                    th:text="${dept.name + ' (' + dept.hospital.name + ')'}"
-                    th:selected="${nurse.department != null and nurse.department.id == dept.id}">
-            </option>
-        </select>
-        <span th:if="${#fields.hasErrors('department')}" th:errors="*{department}" class="error-message"></span>
-    </div>
-    <br/>
-
-    <div>
-        <label for="qualificationLevel">Qualification Level:</label>
-        <input type="text" id="qualificationLevel" th:field="*{qualificationLevel}" />
-        <span th:if="${#fields.hasErrors('qualificationLevel')}" th:errors="*{qualificationLevel}" class="error-message"></span>
-    </div>
-    <br/>
-
-    <div>
-        <label for="shift">Shift:</label>
-        <select id="shift" th:field="*{shift}">
-            <option th:each="s : ${shifts}"
-                    th:value="${s}"
-                    th:text="${s}">
-            </option>
-        </select>
-        <span th:if="${#fields.hasErrors('shift')}" th:errors="*{shift}" class="error-message"></span>
-    </div>
-    <br/>
-
-    <div>
-        <button type="submit" th:text="${nurse.id == null ? 'Add Nurse' : 'Update Nurse'}"></button>
-    </div>
-</form>
-
-<br/>
-<a th:href="@{/nurses}">Back to List</a>
 </body>
 </html>
