@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Doctor Details</title></head>
+<body>
+<h1>Doctor: <span th:text="${doctor.name}"></span></h1>
+<p>ID: <span th:text="${doctor.id}"></span></p>
+<p>License: <span th:text="${doctor.licenseNumber}"></span></p>
+<p>Department: <span th:text="${department.name != null ? department.name : 'Unassigned'}"></span></p>
+
+<h3>Assigned Appointments & Patients</h3>
+<table border="1">
+    <tr><th>Appt ID</th><th>Date</th><th>Patient Name</th></tr>
+    <tr th:each="appt : ${appointments}">
+        <td th:text="${appt.id}"></td>
+        <td th:text="${appt.admissionDate}"></td>
+        <td th:each="p : ${patients}" th:if="${p.id == appt.patientId}" th:text="${p.name}"></td>
+    </tr>
+</table>
+
+<h3>Assigned Rooms</h3>
+<ul>
+    <li th:each="r : ${rooms}">
+        Room <span th:text="${r.number}"></span> (ID: <span th:text="${r.id}"></span>)
+    </li>
+</ul>
+
+<a th:href="@{/doctors}">Back</a>
+</body>
+</html>

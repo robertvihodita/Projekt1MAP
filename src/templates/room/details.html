@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Room Details</title></head>
+<body>
+<h1>Room <span th:text="${room.number}"></span> Details</h1>
+<p>Status: <span th:text="${room.status}"></span> | Capacity: <span th:text="${room.capacity}"></span></p>
+
+<h3>Occupants (Patients)</h3>
+<table border="1">
+    <tr><th>ID</th><th>Name</th></tr>
+    <tr th:each="p : ${patients}">
+        <td th:text="${p.id}"></td>
+        <td th:text="${p.name}"></td>
+    </tr>
+</table>
+
+<h3>Assigned Medical Staff</h3>
+<table border="1">
+    <tr><th>Name</th><th>Role</th><th>Dept ID</th></tr>
+    <tr th:each="s : ${staff}">
+        <td th:text="${s.name}"></td>
+        <td th:text="${s.getClass().getSimpleName()}"></td>
+        <td th:text="${s.departmentId}"></td>
+    </tr>
+</table>
+
+<a th:href="@{/rooms}">Back</a>
+</body>
+</html>
