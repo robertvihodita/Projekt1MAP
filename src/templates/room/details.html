@@ -1,29 +1,40 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Room Details</title></head>
+<head>
+    <title>Room Details</title>
+</head>
 <body>
-<h1>Room <span th:text="${room.number}"></span> Details</h1>
-<p>Status: <span th:text="${room.status}"></span> | Capacity: <span th:text="${room.capacity}"></span></p>
+<h1>Room Details</h1>
 
-<h3>Occupants (Patients)</h3>
+<div>
+    <p><strong>Number:</strong> <span th:text="${room.number}"></span></p>
+    <p><strong>Hospital:</strong> <span th:text="${room.hospital.name}"></span></p>
+    <p><strong>Capacity:</strong> <span th:text="${room.capacity}"></span></p>
+    <p><strong>Status:</strong> <span th:text="${room.status}"></span></p>
+</div>
+
+<h3>Appointments in this Room</h3>
 <table border="1">
-    <tr><th>ID</th><th>Name</th></tr>
-    <tr th:each="p : ${patients}">
-        <td th:text="${p.id}"></td>
-        <td th:text="${p.name}"></td>
+    <tr>
+        <th>Date</th>
+        <th>Patient</th>
+        <th>Assigned Staff</th>
+    </tr>
+    <tr th:each="appt : ${room.appointments}">
+        <td th:text="${#temporals.format(appt.admissionDate, 'dd-MM-yyyy HH:mm')}"></td>
+        <td th:text="${appt.patient.name}"></td>
+        <td>
+            <ul>
+                <li th:each="assign : ${appt.medicalStaffAssignments}">
+                    <span th:text="${assign.medicalStaff.name}"></span>
+                    (<span th:text="${assign.medicalStaff.getClass().getSimpleName()}"></span>)
+                </li>
+            </ul>
+        </td>
     </tr>
 </table>
 
-<h3>Assigned Medical Staff</h3>
-<table border="1">
-    <tr><th>Name</th><th>Role</th><th>Dept ID</th></tr>
-    <tr th:each="s : ${staff}">
-        <td th:text="${s.name}"></td>
-        <td th:text="${s.getClass().getSimpleName()}"></td>
-        <td th:text="${s.departmentId}"></td>
-    </tr>
-</table>
-
-<a th:href="@{/rooms}">Back</a>
+<br>
+<a th:href="@{/rooms}">Back to Rooms</a>
 </body>
 </html>

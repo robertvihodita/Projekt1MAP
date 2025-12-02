@@ -1,39 +1,44 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Hospital Details</title></head>
+<head>
+    <title>Hospital Details</title>
+</head>
 <body>
-<h1>Hospital Details: <span th:text="${hospital.name}"></span> (<span th:text="${hospital.id}"></span>)</h1>
-<p>City: <span th:text="${hospital.city}"></span></p>
+<h1>Hospital Details</h1>
 
-<h2>Departments (<span th:text="${departments.size()}"></span>)</h2>
+<div>
+    <p><strong>ID:</strong> <span th:text="${hospital.id}"></span></p>
+    <p><strong>Name:</strong> <span th:text="${hospital.name}"></span></p>
+    <p><strong>City:</strong> <span th:text="${hospital.city}"></span></p>
+</div>
+
+<h3>Departments</h3>
 <table border="1">
-    <thead>
-    <tr><th>ID</th><th>Name</th></tr>
-    </thead>
-    <tbody>
-    <tr th:each="d : ${departments}">
-        <td th:text="${d.id}"></td>
-        <td th:text="${d.name}"></td>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
     </tr>
-    </tbody>
+    <tr th:each="dept : ${hospital.departments}">
+        <td th:text="${dept.id}"></td>
+        <td th:text="${dept.name}"></td>
+    </tr>
 </table>
 
-<h2>Medical Staff in this Hospital (<span th:text="${staff.size()}"></span>)</h2>
+<h3>Medical Staff (Doctors & Nurses)</h3>
 <table border="1">
-    <thead>
-    <tr><th>ID</th><th>Name</th><th>Type</th><th>Department ID</th></tr>
-    </thead>
-    <tbody>
-    <tr th:each="s : ${staff}">
-        <td th:text="${s.id}"></td>
-        <td th:text="${s.name}"></td>
-        <td th:text="${s.getClass().getSimpleName()}"></td>
-        <td th:text="${s.departmentId}"></td>
+    <tr>
+        <th>Name</th>
+        <th>Department</th>
+        <th>Role</th>
     </tr>
-    </tbody>
+    <tr th:each="staff : ${staffList}">
+        <td th:text="${staff.name}"></td>
+        <td th:text="${staff.department.name}"></td>
+        <td th:text="${staff.getClass().getSimpleName()}"></td>
+    </tr>
 </table>
 
 <br>
-<a th:href="@{/hospitals}">Back to List</a>
+<a th:href="@{/hospitals}">Back to Hospitals</a>
 </body>
 </html>

@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Doctor Details</title>
+    <title>Nurse Details</title>
 </head>
 <body>
-<h1>Doctor Details</h1>
+<h1>Nurse Details</h1>
 
 <div>
-    <p><strong>Name:</strong> <span th:text="${doctor.name}"></span></p>
-    <p><strong>Department:</strong> <span th:text="${doctor.department.name}"></span></p>
-    <p><strong>License:</strong> <span th:text="${doctor.licenseNumber}"></span></p>
+    <p><strong>Name:</strong> <span th:text="${nurse.name}"></span></p>
+    <p><strong>Department:</strong> <span th:text="${nurse.department.name}"></span></p>
+    <p><strong>Qualification:</strong> <span th:text="${nurse.qualificationLevel}"></span></p>
+    <p><strong>Shift:</strong> <span th:text="${nurse.shift}"></span></p>
 </div>
 
 <h3>Schedule / Assignments</h3>
@@ -18,16 +19,16 @@
         <th>Date</th>
         <th>Patient</th>
         <th>Room</th>
-        <th>Working with (Nurses/Others)</th>
+        <th>Working with (Doctors)</th>
     </tr>
-    <tr th:each="assign : ${doctor.appointmentAssignments}">
+    <tr th:each="assign : ${nurse.appointmentAssignments}">
         <td th:text="${#temporals.format(assign.appointment.admissionDate, 'dd-MM-yyyy HH:mm')}"></td>
         <td th:text="${assign.appointment.patient.name}"></td>
         <td th:text="${assign.appointment.room != null ? assign.appointment.room.number : 'No Room'}"></td>
         <td>
             <ul style="margin: 0; padding-left: 15px;">
                 <li th:each="otherAssign : ${assign.appointment.medicalStaffAssignments}"
-                    th:if="${otherAssign.medicalStaff.id != doctor.id}">
+                    th:if="${otherAssign.medicalStaff.id != nurse.id}">
                     <span th:text="${otherAssign.medicalStaff.name}"></span>
                     (<span th:text="${otherAssign.medicalStaff.getClass().getSimpleName()}"></span>)
                 </li>
@@ -37,6 +38,6 @@
 </table>
 
 <br>
-<a th:href="@{/doctors}">Back to Doctors</a>
+<a th:href="@{/nurses}">Back to Nurses</a>
 </body>
 </html>
