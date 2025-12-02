@@ -8,7 +8,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
-import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -20,14 +19,11 @@ public class PatientController {
         this.patientService = patientService;
     }
 
-
     @GetMapping
     public String showAllPatients(Model model) {
-        List<Patient> patients = patientService.getAllPatients();
-        model.addAttribute("patients", patients);
+        model.addAttribute("patients", patientService.getAllPatients());
         return "patient/index";
     }
-
 
     @GetMapping("/new")
     public String showAddPatientForm(Model model) {
@@ -47,17 +43,28 @@ public class PatientController {
         return "redirect:/patients";
     }
 
-
     @PostMapping
     public String addPatient(@Valid @ModelAttribute("patient") Patient patient,
-                             BindingResult bindingResult) {
+                             BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
+            model.addAttribute("statuses", Patient.Status.values());
             return "patient/form";
         }
         patientService.addPatient(patient);
         return "redirect:/patients";
     }
 
+    // NEW: Show Details
+    @GetMapping("/{id}")
+    public String showPatientDetails(@PathVariable String id, Model model) {
+        Optional<Patient> patient = patientService.getPatientById(id);
+        if (patient.isPresent()) {
+            model.addAttribute("patient", patient.get());
+            // The template will access patient.appointments automatically via JPA
+            return "patient/details";
+        }
+        return "redirect:/patients";
+    }
 
     @PostMapping("/{id}/delete")
     public String deletePatient(@PathVariable String id) {
