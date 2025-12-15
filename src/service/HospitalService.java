@@ -1,7 +1,7 @@
 package service;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
 import repository.HospitalRepository;
 import model.Hospital;
 import java.util.List;
@@ -15,23 +15,33 @@ public class HospitalService {
         this.hospitalRepository = hospitalRepository;
     }
 
-    // UPDATED: JPA save uses save(T entity)
     public Hospital addHospital(Hospital hospital) {
         return hospitalRepository.save(hospital);
     }
 
-    // OK: findAll() method signature is the same
-    public List<Hospital> getAllHospitals() {
-        return hospitalRepository.findAll();
+    // UPDATED: Handles Filtering and Sorting
+    public List<Hospital> getAllHospitals(String keyword, String city, String sortField, String sortDir) {
+        // Default sort
+        Sort sort = Sort.by(sortField != null ? sortField : "name");
+        sort = "desc".equals(sortDir) ? sort.descending() : sort.ascending();
+
+        // Handle empty strings as null for the query
+        String searchName = (keyword != null && !keyword.isEmpty()) ? keyword : null;
+        String searchCity = (city != null && !city.isEmpty()) ? city : null;
+
+        return hospitalRepository.searchHospitals(searchName, searchCity, sort);
     }
 
-    // OK: findById(ID id) method signature is the same
     public Optional<Hospital> getHospitalById(String id) {
         return hospitalRepository.findById(id);
     }
 
-    // UPDATED: JPA delete is deleteById(ID id)
     public void deleteHospital(String id) {
         hospitalRepository.deleteById(id);
+    }
+
+    // Fallback for other controllers if needed
+    public List<Hospital> getAllHospitals() {
+        return hospitalRepository.findAll();
     }
 }

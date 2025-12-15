@@ -1,7 +1,7 @@
 package service;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
 import repository.PatientRepository;
 import model.Patient;
 import java.util.List;
@@ -15,22 +15,26 @@ public class PatientService {
         this.patientRepository = patientRepository;
     }
 
-    // UPDATED: JPA save uses save(T entity)
     public Patient addPatient(Patient patient) {
         return patientRepository.save(patient);
     }
 
-    // OK: findAll() method signature is the same
-    public List<Patient> getAllPatients() {
-        return patientRepository.findAll();
+    // UPDATED
+    public List<Patient> getAllPatients(String name, Patient.Status status, String sortField, String sortDir) {
+        Sort sort = Sort.by(sortField != null ? sortField : "name");
+        sort = "desc".equals(sortDir) ? sort.descending() : sort.ascending();
+
+        String searchName = (name != null && !name.isEmpty()) ? name : null;
+
+        return patientRepository.searchPatients(searchName, status, sort);
     }
 
-    // OK: findById(ID id) method signature is the same
+    public List<Patient> getAllPatients() { return patientRepository.findAll(); }
+
     public Optional<Patient> getPatientById(String id) {
         return patientRepository.findById(id);
     }
 
-    // UPDATED: JPA delete is deleteById(ID id)
     public void deletePatient(String id) {
         patientRepository.deleteById(id);
     }

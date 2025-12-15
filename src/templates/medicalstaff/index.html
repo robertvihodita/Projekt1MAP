@@ -1,40 +1,58 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Detailed Medical Staff Overview</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        table { border-collapse: collapse; width: 100%; }
-        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-        th { background: #f4f4f4; }
-        h1 { color: #333; }
-    </style>
-</head>
+<head><title>Doctors</title></head>
 <body>
-<h1>Detailed Medical Staff Overview</h1>
+<h1>Doctors</h1>
 
-<table>
+<form th:action="@{/doctors}" method="get" style="margin-bottom: 20px; padding: 10px; border: 1px solid #ccc;">
+    <label>Name: <input type="text" name="name" th:value="${name}" /></label>
+
+    <label>Department:
+        <select name="departmentId">
+            <option value="">-- All --</option>
+            <option th:each="d : ${departments}"
+                    th:value="${d.id}"
+                    th:text="${d.name}"
+                    th:selected="${d.id == departmentId}"></option>
+        </select>
+    </label>
+
+    <button type="submit">Filter</button>
+    <a th:href="@{/doctors}">Reset</a>
+</form>
+
+<a th:href="@{/doctors/new}">Add new Doctor</a>
+
+<table border="1" cellpadding="5">
+    <thead>
     <tr>
-        <th>Type</th>
         <th>ID</th>
-        <th>Name</th>
+        <th>
+            <a th:href="@{/doctors(sortField='name', sortDir=${reverseSortDir}, name=${name}, departmentId=${departmentId})}">Name</a>
+        </th>
         <th>Department</th>
-        <th>Details (License / Qualification)</th>
+        <th>
+            <a th:href="@{/doctors(sortField='licenseNumber', sortDir=${reverseSortDir}, name=${name}, departmentId=${departmentId})}">License</a>
+        </th>
+        <th>Action</th>
     </tr>
-
-    <tr th:each="s : ${staffList}"> <td th:text="${s.getClass().getSimpleName()}"></td>
-        <td th:text="${s.id}"></td>
-        <td th:text="${s.name}"></td>
-        <td th:text="${s.department != null ? s.department.name : 'N/A'}"></td>
-
-
+    </thead>
+    <tbody>
+    <tr th:each="d : ${doctors}">
+        <td th:text="${d.id}"></td>
+        <td th:text="${d.name}"></td>
+        <td th:text="${d.department.name}"></td>
+        <td th:text="${d.licenseNumber}"></td>
         <td>
-            <span th:if="${#fields.hasProperty(s, 'licenseNumber')}"
-                  th:text="'License: ' + ${s.licenseNumber}"></span>
-            <span th:if="${#fields.hasProperty(s, 'qualificationLevel')}"
-                  th:text="'Qual.: ' + ${s.qualificationLevel}"></span>
+            <a th:href="@{'/doctors/' + ${d.id}}">Details</a> |
+            <a th:href="@{'/doctors/' + ${d.id} + '/edit'}">Edit</a> |
+            <form th:action="@{'/doctors/' + ${d.id} + '/delete'}" method="post" style="display:inline;">
+                <button type="submit" onclick="return confirm('Delete?');">Delete</button>
+            </form>
         </td>
     </tr>
+    </tbody>
 </table>
+<br><a th:href="@{/}">Back to Home</a>
 </body>
 </html>

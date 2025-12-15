@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
-
 import java.util.Optional;
 
 @Controller
@@ -24,8 +23,22 @@ public class DoctorController {
     }
 
     @GetMapping
-    public String viewAllDoctors(Model model) {
-        model.addAttribute("doctors", doctorService.getAllDoctors());
+    public String viewAllDoctors(Model model,
+                                 @RequestParam(required = false) String name,
+                                 @RequestParam(required = false) String departmentId,
+                                 @RequestParam(required = false, defaultValue = "name") String sortField,
+                                 @RequestParam(required = false, defaultValue = "asc") String sortDir) {
+
+        model.addAttribute("doctors", doctorService.getAllDoctors(name, departmentId, sortField, sortDir));
+        model.addAttribute("departments", departmentService.getAllDepartments()); // For filter dropdown
+
+        // Persist filter/sort state
+        model.addAttribute("name", name);
+        model.addAttribute("departmentId", departmentId);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+
         return "doctor/index";
     }
 
@@ -57,13 +70,11 @@ public class DoctorController {
         return "redirect:/doctors";
     }
 
-    // NEW: Details Page
     @GetMapping("/{id}")
     public String showDoctorDetails(@PathVariable String id, Model model) {
         Optional<Doctor> doctorOpt = doctorService.getDoctorById(id);
         if (doctorOpt.isPresent()) {
             model.addAttribute("doctor", doctorOpt.get());
-            // Template will navigate: doctor.appointmentAssignments -> appointment -> patient/room/other staff
             return "doctor/details";
         }
         return "redirect:/doctors";

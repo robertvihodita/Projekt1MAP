@@ -7,7 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
-
 import java.util.Optional;
 
 @Controller
@@ -20,8 +19,21 @@ public class PatientController {
     }
 
     @GetMapping
-    public String showAllPatients(Model model) {
-        model.addAttribute("patients", patientService.getAllPatients());
+    public String showAllPatients(Model model,
+                                  @RequestParam(required = false) String name,
+                                  @RequestParam(required = false) Patient.Status status,
+                                  @RequestParam(required = false, defaultValue = "name") String sortField,
+                                  @RequestParam(required = false, defaultValue = "asc") String sortDir) {
+
+        model.addAttribute("patients", patientService.getAllPatients(name, status, sortField, sortDir));
+        model.addAttribute("statuses", Patient.Status.values()); // For dropdown
+
+        model.addAttribute("name", name);
+        model.addAttribute("status", status);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+
         return "patient/index";
     }
 
@@ -54,13 +66,11 @@ public class PatientController {
         return "redirect:/patients";
     }
 
-    // NEW: Show Details
     @GetMapping("/{id}")
     public String showPatientDetails(@PathVariable String id, Model model) {
         Optional<Patient> patient = patientService.getPatientById(id);
         if (patient.isPresent()) {
             model.addAttribute("patient", patient.get());
-            // The template will access patient.appointments automatically via JPA
             return "patient/details";
         }
         return "redirect:/patients";
