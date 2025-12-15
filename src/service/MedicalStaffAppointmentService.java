@@ -1,37 +1,53 @@
 package service;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
 import repository.MedicalStaffAppointmentRepository;
 import model.MedicalStaffAppointment;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class MedicalStaffAppointmentService {
-    private final MedicalStaffAppointmentRepository medicalStaffAppointmentRepository;
+    private final MedicalStaffAppointmentRepository repository;
 
-    public MedicalStaffAppointmentService(MedicalStaffAppointmentRepository medicalStaffAppointmentRepository) {
-        this.medicalStaffAppointmentRepository = medicalStaffAppointmentRepository;
+    public MedicalStaffAppointmentService(MedicalStaffAppointmentRepository repository) {
+        this.repository = repository;
     }
 
-    // UPDATED: JPA save uses save(T entity)
     public MedicalStaffAppointment addMedicalStaffAppointment(MedicalStaffAppointment appointment) {
-        return medicalStaffAppointmentRepository.save(appointment);
+        return repository.save(appointment);
     }
 
-    // OK: findAll() method signature is the same
-    public List<MedicalStaffAppointment> getAllMedicalStaffAppointments() {
-        return medicalStaffAppointmentRepository.findAll();
-    }
-
-    // OK: findById(ID id) method signature is the same
     public Optional<MedicalStaffAppointment> getMedicalStaffAppointmentById(String id) {
-        return medicalStaffAppointmentRepository.findById(id);
+        return repository.findById(id);
     }
 
-    // UPDATED: JPA delete is deleteById(ID id)
     public void deleteMedicalStaffAppointment(String id) {
-        medicalStaffAppointmentRepository.deleteById(id);
+        repository.deleteById(id);
+    }
+
+    public List<MedicalStaffAppointment> getAllMedicalStaffAppointments() {
+        return repository.findAll();
+    }
+
+
+    public List<MedicalStaffAppointment> getAllMedicalStaffAppointments(String hospitalId, String departmentId,
+                                                                        String staffId, LocalDate date,
+                                                                        String sortField, String sortDir) {
+        Sort sort = Sort.by(sortField != null ? sortField : "status");
+        sort = "desc".equals(sortDir) ? sort.descending() : sort.ascending();
+
+        String searchHosp = (hospitalId != null && !hospitalId.isEmpty()) ? hospitalId : null;
+        String searchDept = (departmentId != null && !departmentId.isEmpty()) ? departmentId : null;
+        String searchStaff = (staffId != null && !staffId.isEmpty()) ? staffId : null;
+
+        LocalDateTime start = (date != null) ? date.atStartOfDay() : null;
+        LocalDateTime end = (date != null) ? date.atTime(23, 59, 59) : null;
+
+        return repository.searchAssignments(searchHosp, searchDept, searchStaff, start, end, sort);
     }
 }

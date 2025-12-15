@@ -3,6 +3,7 @@ package controller;
 import model.Doctor;
 import service.DoctorService;
 import service.DepartmentService;
+import service.HospitalService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,25 +17,32 @@ public class DoctorController {
 
     private final DoctorService doctorService;
     private final DepartmentService departmentService;
+    private final HospitalService hospitalService; // NEW: Needed for the filter dropdown
 
-    public DoctorController(DoctorService doctorService, DepartmentService departmentService) {
+    public DoctorController(DoctorService doctorService, DepartmentService departmentService, HospitalService hospitalService) {
         this.doctorService = doctorService;
         this.departmentService = departmentService;
+        this.hospitalService = hospitalService;
     }
 
     @GetMapping
     public String viewAllDoctors(Model model,
                                  @RequestParam(required = false) String name,
                                  @RequestParam(required = false) String departmentId,
+                                 @RequestParam(required = false) String hospitalId, // NEW
                                  @RequestParam(required = false, defaultValue = "name") String sortField,
                                  @RequestParam(required = false, defaultValue = "asc") String sortDir) {
 
-        model.addAttribute("doctors", doctorService.getAllDoctors(name, departmentId, sortField, sortDir));
-        model.addAttribute("departments", departmentService.getAllDepartments()); // For filter dropdown
+        model.addAttribute("doctors", doctorService.getAllDoctors(name, departmentId, hospitalId, sortField, sortDir));
 
-        // Persist filter/sort state
+        // Load dropdowns
+        model.addAttribute("departments", departmentService.getAllDepartments());
+        model.addAttribute("hospitals", hospitalService.getAllHospitals()); // NEW
+
+        // Persist params
         model.addAttribute("name", name);
         model.addAttribute("departmentId", departmentId);
+        model.addAttribute("hospitalId", hospitalId); // NEW
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDir", sortDir);
         model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");

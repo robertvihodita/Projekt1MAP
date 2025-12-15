@@ -10,19 +10,34 @@
     <p><strong>Status:</strong> <span th:text="${patient.status}"></span></p>
 </div>
 
+<h3>Current Location</h3>
+<div th:each="appt : ${patient.appointments}" th:if="${appt.status.name() == 'ACTIVE'}" style="border: 1px solid #ccc; padding: 10px; margin-bottom: 20px; background-color: #f9f9f9;">
+    <p><strong>Hospital:</strong> <span th:text="${appt.department.hospital.name}"></span></p>
+    <p><strong>Department:</strong> <span th:text="${appt.department.name}"></span></p>
+    <p><strong>Room:</strong> <span th:text="${appt.room != null ? appt.room.number : 'No Room Assigned'}"></span></p>
+    <p><em>(Based on active appointment on <span th:text="${#temporals.format(appt.admissionDate, 'dd-MM-yyyy HH:mm')}"></span>)</em></p>
+</div>
+<div th:if="${patient.appointments.isEmpty()} or ${patient.status.name() == 'DISCHARGED'}">
+    <p><em>No active admission found.</em></p>
+</div>
+
 <h3>Appointment History</h3>
 <table border="1">
     <thead>
     <tr>
         <th>Date</th>
+        <th>Hospital</th>
         <th>Department</th>
+        <th>Room</th>
         <th>Status</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="appt : ${patient.appointments}">
         <td th:text="${#temporals.format(appt.admissionDate, 'dd-MM-yyyy HH:mm')}"></td>
+        <td th:text="${appt.department.hospital.name}"></td>
         <td th:text="${appt.department.name}"></td>
+        <td th:text="${appt.room != null ? appt.room.number : 'N/A'}"></td>
         <td th:text="${appt.status}"></td>
     </tr>
     </tbody>

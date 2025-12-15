@@ -8,6 +8,12 @@
 
 <div>
     <p><strong>Name:</strong> <span th:text="${nurse.name}"></span></p>
+    <p><strong>ID:</strong> <span th:text="${nurse.id}"></span></p>
+
+    <p><strong>Hospital:</strong>
+        <span th:text="${nurse.department != null ? nurse.department.hospital.name : 'Unassigned'}"></span>
+    </p>
+
     <p><strong>Department:</strong> <span th:text="${nurse.department.name}"></span></p>
     <p><strong>Qualification:</strong> <span th:text="${nurse.qualificationLevel}"></span></p>
     <p><strong>Shift:</strong> <span th:text="${nurse.shift}"></span></p>

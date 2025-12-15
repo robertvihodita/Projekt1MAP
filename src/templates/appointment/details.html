@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Appointment Details</title></head>
+<body>
+<h1>Appointment Details</h1>
+
+<div>
+    <p><strong>ID:</strong> <span th:text="${appointment.id}"></span></p>
+    <p><strong>Date:</strong> <span th:text="${#temporals.format(appointment.admissionDate, 'dd-MM-yyyy HH:mm')}"></span></p>
+
+    <p><strong>Status:</strong> <span th:text="${appointment.status}"></span></p>
+    <p><strong>Patient:</strong> <span th:text="${appointment.patient.name}"></span></p>
+
+    <hr>
+    <p><strong>Hospital:</strong> <span th:text="${appointment.department.hospital.name}"></span></p>
+    <p><strong>Department:</strong> <span th:text="${appointment.department.name}"></span></p>
+    <p><strong>Room:</strong> <span th:text="${appointment.room != null ? appointment.room.number : 'Not Assigned'}"></span></p>
+</div>
+
+<h3>Assigned Medical Staff</h3>
+<table border="1">
+    <tr>
+        <th>Name</th>
+        <th>Role</th>
+        <th>Assignment Status</th>
+    </tr>
+    <tr th:each="msa : ${appointment.medicalStaffAssignments}">
+        <td th:text="${msa.medicalStaff.name}"></td>
+        <td th:text="${msa.medicalStaff.getClass().getSimpleName()}"></td>
+        <td th:text="${msa.status}"></td>
+    </tr>
+</table>
+
+<br><a th:href="@{/appointments}">Back to List</a>
+</body>
+</html>

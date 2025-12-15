@@ -30,9 +30,6 @@
         <th>
             <a th:href="@{/patients(sortField='name', sortDir=${reverseSortDir}, name=${name}, status=${status})}">Name</a>
         </th>
-        <th>
-            <a th:href="@{/patients(sortField='status', sortDir=${reverseSortDir}, name=${name}, status=${status})}">Status</a>
-        </th>
         <th>Action</th>
     </tr>
     </thead>
@@ -40,7 +37,6 @@
     <tr th:each="p : ${patients}">
         <td th:text="${p.id}"></td>
         <td th:text="${p.name}"></td>
-        <td th:text="${p.status}"></td>
         <td>
             <a th:href="@{'/patients/' + ${p.id}}">Details</a> |
             <a th:href="@{'/patients/' + ${p.id} + '/edit'}">Edit</a> |

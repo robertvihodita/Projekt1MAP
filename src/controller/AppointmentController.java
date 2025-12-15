@@ -1,9 +1,6 @@
 package controller;
 
 import model.Appointment;
-import model.Department;
-import model.Patient;
-import model.Room;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,9 +9,9 @@ import repository.DepartmentRepository;
 import repository.PatientRepository;
 import repository.RoomRepository;
 import service.AppointmentService;
+import service.HospitalService;
 import jakarta.validation.Valid;
-
-import java.util.List;
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Controller
@@ -22,30 +19,59 @@ import java.util.Optional;
 public class AppointmentController {
 
     private final AppointmentService appointmentService;
-    // Inject Repositories for dropdowns (Foreign Keys)
     private final PatientRepository patientRepository;
     private final DepartmentRepository departmentRepository;
     private final RoomRepository roomRepository;
+    private final HospitalService hospitalService;
 
     public AppointmentController(AppointmentService appointmentService,
                                  PatientRepository patientRepository,
                                  DepartmentRepository departmentRepository,
-                                 RoomRepository roomRepository) {
+                                 RoomRepository roomRepository,
+                                 HospitalService hospitalService) {
         this.appointmentService = appointmentService;
         this.patientRepository = patientRepository;
         this.departmentRepository = departmentRepository;
         this.roomRepository = roomRepository;
+        this.hospitalService = hospitalService;
     }
 
-
     @GetMapping
-    public String viewAllAppointments(Model model) {
-        List<Appointment> appointments = appointmentService.getAllAppointments();
-        model.addAttribute("appointments", appointments);
+    public String viewAllAppointments(Model model,
+                                      @RequestParam(required = false) String patientId,
+                                      @RequestParam(required = false) String hospitalId,
+                                      @RequestParam(required = false) LocalDate date,
+                                      @RequestParam(required = false) Appointment.AppointmentStatus status,
+                                      @RequestParam(required = false, defaultValue = "admissionDate") String sortField,
+                                      @RequestParam(required = false, defaultValue = "desc") String sortDir) {
+
+        model.addAttribute("appointments", appointmentService.getAllAppointments(patientId, status, hospitalId, date, sortField, sortDir));
+
+        model.addAttribute("patients", patientRepository.findAll());
+        model.addAttribute("statuses", Appointment.AppointmentStatus.values());
+        model.addAttribute("hospitals", hospitalService.getAllHospitals());
+
+        model.addAttribute("patientId", patientId);
+        model.addAttribute("hospitalId", hospitalId);
+        model.addAttribute("date", date);
+        model.addAttribute("status", status);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+
         return "appointment/index";
     }
 
-    // Helper method to load necessary data for the form (patients, departments, rooms)
+    @GetMapping("/{id}")
+    public String showAppointmentDetails(@PathVariable String id, Model model) {
+        Optional<Appointment> appt = appointmentService.getAppointmentById(id);
+        if (appt.isPresent()) {
+            model.addAttribute("appointment", appt.get());
+            return "appointment/details";
+        }
+        return "redirect:/appointments";
+    }
+
     private void loadFormDependencies(Model model) {
         model.addAttribute("statuses", Appointment.AppointmentStatus.values());
         model.addAttribute("patients", patientRepository.findAll());
@@ -60,7 +86,6 @@ public class AppointmentController {
         return "appointment/form";
     }
 
-    // UPDATED: Show Edit Form
     @GetMapping("/{id}/edit")
     public String showEditAppointmentForm(@PathVariable String id, Model model) {
         Optional<Appointment> appointment = appointmentService.getAppointmentById(id);
@@ -69,53 +94,35 @@ public class AppointmentController {
             loadFormDependencies(model);
             return "appointment/form";
         }
-        // Handle not found case (or show a custom error)
         return "redirect:/appointments";
     }
 
-
-    // UPDATED: Added @Valid and BindingResult for Backend Validation [cite: 28]
     @PostMapping
     public String addAppointment(@Valid @ModelAttribute("appointment") Appointment appointment,
                                  BindingResult bindingResult,
                                  Model model) {
-
-        // 1. Check for Field Validation Errors (e.g., @NotBlank, @Size) [cite: 79]
         if (bindingResult.hasErrors()) {
             loadFormDependencies(model);
-            // Return to the form to display errors next to fields [cite: 87]
             return "appointment/form";
         }
 
-        // 2. Implement Business Validations (e.g., Appointment must not be for a non-existent Doctor) [cite: 88, 90]
-        // Example of a Business Validation that can be done here:
-        if (appointment.getPatient() == null || appointment.getPatient().getId() == null ||
-                !patientRepository.existsById(appointment.getPatient().getId())) {
 
-            // Add a global error message
-            model.addAttribute("globalError", "The selected patient does not exist.");
-            loadFormDependencies(model);
-            return "appointment/form";
+        if (appointment.getRoom() != null && appointment.getStatus() == Appointment.AppointmentStatus.ACTIVE) {
+            // Check capacity, passing current ID to handle "Edit" correctly
+            if (appointmentService.isRoomFull(appointment.getRoom().getId(), appointment.getId())) {
+                model.addAttribute("globalError", "Room capacity exceeded! This room is full. Please select another.");
+                loadFormDependencies(model);
+                return "appointment/form";
+            }
         }
 
-        // Save the valid entity
         appointmentService.addAppointment(appointment);
         return "redirect:/appointments";
     }
 
-
     @PostMapping("/{id}/delete")
     public String deleteAppointment(@PathVariable String id) {
-        // You may need to add try-catch here for "Business Validations" [cite: 92]
-        // E.g., preventing deletion if other entities depend on it (foreign key violation)
-        try {
-            appointmentService.deleteAppointment(id);
-        } catch (Exception e) {
-            // In a real application, you would catch DataIntegrityViolationException 
-            // and return to an error page with a message [cite: 96]
-            System.err.println("Deletion failed due to integrity constraint: " + e.getMessage());
-            // TODO: Redirect to an error page or show a message to the user [cite: 96]
-        }
+        appointmentService.deleteAppointment(id);
         return "redirect:/appointments";
     }
 }

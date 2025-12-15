@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Assignment Details</title>
+</head>
+<body>
+<h1>Staff Assignment Details</h1>
+
+<div>
+    <p><strong>Assignment ID:</strong> <span th:text="${msa.id}"></span></p>
+    <p><strong>Status:</strong> <span th:text="${msa.status}"></span></p>
+</div>
+
+<h3>Staff Member</h3>
+<div style="margin-left: 20px;">
+    <p><strong>Name:</strong> <span th:text="${msa.medicalStaff.name}"></span></p>
+    <p><strong>Role:</strong> <span th:text="${msa.medicalStaff.getClass().getSimpleName()}"></span></p>
+</div>
+
+<h3>Appointment Context</h3>
+<div style="margin-left: 20px;">
+    <p><strong>Date:</strong> <span th:text="${#temporals.format(msa.appointment.admissionDate, 'dd-MM-yyyy HH:mm')}"></span></p>
+    <p><strong>Patient:</strong> <span th:text="${msa.appointment.patient.name}"></span></p>
+    <p><strong>Room:</strong> <span th:text="${msa.appointment.room != null ? msa.appointment.room.number : 'N/A'}"></span></p>
+</div>
+
+<h3>Location</h3>
+<div style="margin-left: 20px;">
+    <p><strong>Hospital:</strong>
+        <span th:text="${msa.appointment.department.hospital.name}"></span>
+    </p>
+    <p><strong>Department:</strong>
+        <span th:text="${msa.appointment.department.name}"></span>
+    </p>
+</div>
+
+<br>
+<a th:href="@{/staff-appointments}">Back to List</a>
+</body>
+</html>

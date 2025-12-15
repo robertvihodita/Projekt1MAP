@@ -1,28 +1,46 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Nurses</title>
-</head>
+<head><title>Nurses</title></head>
 <body>
 <h1>Nurses</h1>
 
+<form th:action="@{/nurses}" method="get" style="margin-bottom: 20px; border: 1px solid #ccc; padding: 10px;">
+    <label>Name: <input type="text" name="name" th:value="${name}" /></label>
+
+    <label>Hospital:
+        <select name="hospitalId">
+            <option value="">-- All --</option>
+            <option th:each="h : ${hospitals}" th:value="${h.id}" th:text="${h.name + ' (' + h.city + ')'}" th:selected="${h.id == hospitalId}"></option>
+        </select>
+    </label>
+
+    <label>Department:
+        <select name="departmentId">
+            <option value="">-- All --</option>
+            <option th:each="d : ${departments}" th:value="${d.id}" th:text="${d.name}" th:selected="${d.id == departmentId}"></option>
+        </select>
+    </label>
+
+    <button type="submit">Filter</button>
+    <a th:href="@{/nurses}">Reset</a>
+</form>
+
 <a th:href="@{/nurses/new}">Add new Nurse</a>
 
-<table border="1">
+<table border="1" cellpadding="5">
+    <thead>
     <tr>
         <th>ID</th>
-        <th>Name</th>
-        <th>Department</th>
-        <th>Qualification</th>
-        <th>Shift</th>
+        <th>
+            <a th:href="@{/nurses(sortField='name', sortDir=${reverseSortDir}, name=${name}, departmentId=${departmentId}, hospitalId=${hospitalId})}">Name</a>
+        </th>
         <th>Action</th>
     </tr>
+    </thead>
+    <tbody>
     <tr th:each="n : ${nurses}">
         <td th:text="${n.id}"></td>
         <td th:text="${n.name}"></td>
-        <td th:text="${n.department.name}"></td>
-        <td th:text="${n.qualificationLevel}"></td>
-        <td th:text="${n.shift}"></td>
         <td>
             <a th:href="@{'/nurses/' + ${n.id}}">Details</a> |
             <a th:href="@{'/nurses/' + ${n.id} + '/edit'}">Edit</a> |
@@ -31,6 +49,8 @@
             </form>
         </td>
     </tr>
+    </tbody>
 </table>
+<br><a th:href="@{/}">Back to Home</a>
 </body>
 </html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Department Details</title>
+</head>
+<body>
+<h1>Department Details</h1>
+
+<div>
+    <p><strong>Name:</strong> <span th:text="${department.name}"></span></p>
+    <p><strong>Hospital:</strong> <span th:text="${department.hospital.name}"></span></p>
+</div>
+
+<h3>Medical Staff in this Department</h3>
+<table border="1">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Role</th>
+        <th>Details</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="staff : ${department.staff}">
+        <td th:text="${staff.name}"></td>
+        <td th:text="${staff.getClass().getSimpleName()}"></td>
+        <td>
+            <span th:if="${staff.getClass().getSimpleName() == 'Doctor'}"
+                  th:text="'Lic: ' + ${staff.licenseNumber}"></span>
+
+            <span th:if="${staff.getClass().getSimpleName() == 'Nurse'}"
+                  th:text="'Qual: ' + ${staff.qualificationLevel}"></span>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<br>
+<a th:href="@{/departments}">Back to Departments</a>
+</body>
+</html>

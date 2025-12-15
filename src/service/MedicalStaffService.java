@@ -1,7 +1,7 @@
 package service;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
 import repository.MedicalStaffRepository;
 import model.MedicalStaff;
 import java.util.List;
@@ -15,29 +15,31 @@ public class MedicalStaffService {
         this.medicalStaffRepository = medicalStaffRepository;
     }
 
-    // UPDATED: JPA save uses save(T entity). The composite repository was adjusted previously.
     public MedicalStaff addStaff(MedicalStaff staff) {
-        // Note: We removed the 'id' parameter from the save method here.
         return medicalStaffRepository.save(staff);
     }
 
-    // OK: findAll() method signature is the same
+    // UPDATED: Added departmentId parameter
+    public List<MedicalStaff> getAllStaff(String hospitalId, String departmentId, String role, String sortField, String sortDir) {
+        Sort sort = Sort.by(sortField != null ? sortField : "name");
+        sort = "desc".equals(sortDir) ? sort.descending() : sort.ascending();
+
+        String searchHospital = (hospitalId != null && !hospitalId.isEmpty()) ? hospitalId : null;
+        String searchDept = (departmentId != null && !departmentId.isEmpty()) ? departmentId : null;
+        String searchRole = (role != null && !role.isEmpty()) ? role : null;
+
+        return medicalStaffRepository.searchStaff(searchHospital, searchDept, searchRole, sort);
+    }
+
     public List<MedicalStaff> getAllStaff() {
         return medicalStaffRepository.findAll();
     }
 
-    // OK: findByDepartmentId method signature is the same
-    public List<MedicalStaff> getStaffByDepartment(String departmentId) {
-        return medicalStaffRepository.findByDepartmentId(departmentId);
-    }
-
-    // OK: findById method signature is the same
     public Optional<MedicalStaff> getStaffById(String id) {
         return medicalStaffRepository.findById(id);
     }
 
-    // OK: delete method signature is the same (handled in the composite repository)
     public void deleteStaff(String id) {
-        medicalStaffRepository.delete(id);
+        medicalStaffRepository.deleteById(id);
     }
 }

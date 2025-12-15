@@ -1,26 +1,52 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Doctors</title>
-</head>
+<head><title>Doctors</title></head>
 <body>
 <h1>Doctors</h1>
 
+<form th:action="@{/doctors}" method="get" style="margin-bottom: 20px; padding: 10px; border: 1px solid #ccc;">
+    <label>Name: <input type="text" name="name" th:value="${name}" /></label>
+
+    <label>Hospital:
+        <select name="hospitalId">
+            <option value="">-- All --</option>
+            <option th:each="h : ${hospitals}"
+                    th:value="${h.id}"
+                    th:text="${h.name + ' (' + h.city + ')'}"
+                    th:selected="${h.id == hospitalId}"></option>
+        </select>
+    </label>
+
+    <label>Department:
+        <select name="departmentId">
+            <option value="">-- All --</option>
+            <option th:each="d : ${departments}"
+                    th:value="${d.id}"
+                    th:text="${d.name}"
+                    th:selected="${d.id == departmentId}"></option>
+        </select>
+    </label>
+
+    <button type="submit">Filter</button>
+    <a th:href="@{/doctors}">Reset</a>
+</form>
+
 <a th:href="@{/doctors/new}">Add new Doctor</a>
 
-<table border="1">
+<table border="1" cellpadding="5">
+    <thead>
     <tr>
         <th>ID</th>
-        <th>Name</th>
-        <th>Department</th>
-        <th>License</th>
+        <th>
+            <a th:href="@{/doctors(sortField='name', sortDir=${reverseSortDir}, name=${name}, departmentId=${departmentId}, hospitalId=${hospitalId})}">Name</a>
+        </th>
         <th>Action</th>
     </tr>
+    </thead>
+    <tbody>
     <tr th:each="d : ${doctors}">
         <td th:text="${d.id}"></td>
         <td th:text="${d.name}"></td>
-        <td th:text="${d.department.name}"></td>
-        <td th:text="${d.licenseNumber}"></td>
         <td>
             <a th:href="@{'/doctors/' + ${d.id}}">Details</a> |
             <a th:href="@{'/doctors/' + ${d.id} + '/edit'}">Edit</a> |
@@ -29,6 +55,8 @@
             </form>
         </td>
     </tr>
+    </tbody>
 </table>
+<br><a th:href="@{/}">Back to Home</a>
 </body>
 </html>

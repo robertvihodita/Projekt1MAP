@@ -55,7 +55,7 @@
             <option th:value="null" selected>-- Select Room (Optional) --</option>
             <option th:each="r : ${rooms}"
                     th:value="${r.id}"
-                    th:text="${r.number + ' (' + r.hospital.name + ')'}"
+                    th:text="${r.number + ' (' + r.hospital.name + ') - Cap: ' + r.capacity}"
                     th:selected="${appointment.room != null and appointment.room.id == r.id}">
             </option>
         </select>

@@ -13,8 +13,10 @@ public interface DoctorRepository extends JpaRepository<Doctor, String> {
 
     @Query("SELECT d FROM Doctor d WHERE " +
             "(:name IS NULL OR LOWER(d.name) LIKE LOWER(CONCAT('%', :name, '%'))) AND " +
-            "(:departmentId IS NULL OR d.department.id = :departmentId)")
+            "(:departmentId IS NULL OR d.department.id = :departmentId) AND " +
+            "(:hospitalId IS NULL OR d.department.hospital.id = :hospitalId)")
     List<Doctor> searchDoctors(@Param("name") String name,
                                @Param("departmentId") String departmentId,
+                               @Param("hospitalId") String hospitalId,
                                Sort sort);
 }

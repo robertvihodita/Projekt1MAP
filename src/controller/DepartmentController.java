@@ -1,16 +1,13 @@
 package controller;
 
 import service.DepartmentService;
-import service.HospitalService; // Needed for dropdown
+import service.HospitalService;
 import model.Department;
-import model.Hospital;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
-
-import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -18,31 +15,47 @@ import java.util.Optional;
 public class DepartmentController {
 
     private final DepartmentService departmentService;
-    private final HospitalService hospitalService; // Used to populate Hospital dropdown
+    private final HospitalService hospitalService;
 
     public DepartmentController(DepartmentService departmentService, HospitalService hospitalService) {
         this.departmentService = departmentService;
         this.hospitalService = hospitalService;
     }
 
-    private void loadFormDependencies(Model model) {
-        // Load all Hospitals for the selection dropdown
-        model.addAttribute("hospitals", hospitalService.getAllHospitals());
-    }
-
-
     @GetMapping
-    public String showAllDepartments(Model model) {
-        List<Department> departments = departmentService.getAllDepartments();
-        model.addAttribute("departments", departments);
+    public String showAllDepartments(Model model,
+                                     @RequestParam(required = false) String name,
+                                     @RequestParam(required = false) String hospitalId,
+                                     @RequestParam(required = false, defaultValue = "name") String sortField,
+                                     @RequestParam(required = false, defaultValue = "asc") String sortDir) {
+
+        model.addAttribute("departments", departmentService.getAllDepartments(name, hospitalId, sortField, sortDir));
+        model.addAttribute("hospitals", hospitalService.getAllHospitals()); // For filter
+
+        model.addAttribute("name", name);
+        model.addAttribute("hospitalId", hospitalId);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+
         return "department/index";
     }
 
+    @GetMapping("/{id}")
+    public String showDepartmentDetails(@PathVariable String id, Model model) {
+        Optional<Department> dept = departmentService.getDepartmentById(id);
+        if (dept.isPresent()) {
+            model.addAttribute("department", dept.get());
+            return "department/details";
+        }
+        return "redirect:/departments";
+    }
 
+    // Add/Edit Methods (same logic as before but ensured dependencies are loaded)
     @GetMapping("/new")
     public String showAddDepartmentForm(Model model) {
         model.addAttribute("department", new Department());
-        loadFormDependencies(model);
+        model.addAttribute("hospitals", hospitalService.getAllHospitals());
         return "department/form";
     }
 
@@ -51,33 +64,21 @@ public class DepartmentController {
         Optional<Department> department = departmentService.getDepartmentById(id);
         if (department.isPresent()) {
             model.addAttribute("department", department.get());
-            loadFormDependencies(model);
+            model.addAttribute("hospitals", hospitalService.getAllHospitals());
             return "department/form";
         }
         return "redirect:/departments";
     }
 
-
     @PostMapping
-    public String addDepartment(@Valid @ModelAttribute("department") Department department,
-                                BindingResult bindingResult,
-                                Model model) {
-        if (bindingResult.hasErrors()) {
-            loadFormDependencies(model);
+    public String addDepartment(@Valid @ModelAttribute("department") Department department, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("hospitals", hospitalService.getAllHospitals());
             return "department/form";
         }
-
-        // Example Business Validation: Ensure hospital is selected
-        if (department.getHospital() == null || department.getHospital().getId().isEmpty()) {
-            model.addAttribute("globalError", "A hospital must be selected for the department.");
-            loadFormDependencies(model);
-            return "department/form";
-        }
-
         departmentService.addDepartment(department);
         return "redirect:/departments";
     }
-
 
     @PostMapping("/{id}/delete")
     public String deleteDepartment(@PathVariable String id) {

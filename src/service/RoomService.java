@@ -1,7 +1,7 @@
 package service;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
 import repository.RoomRepository;
 import model.Room;
 import java.util.List;
@@ -15,23 +15,17 @@ public class RoomService {
         this.roomRepository = roomRepository;
     }
 
-    // UPDATED: JPA save uses save(T entity)
-    public Room addRoom(Room room) {
-        return roomRepository.save(room);
-    }
+    public Room addRoom(Room room) { return roomRepository.save(room); }
+    public Optional<Room> getRoomById(String id) { return roomRepository.findById(id); }
+    public void deleteRoom(String id) { roomRepository.deleteById(id); }
+    public List<Room> getAllRooms() { return roomRepository.findAll(); }
 
-    // OK: findAll() method signature is the same
-    public List<Room> getAllRooms() {
-        return roomRepository.findAll();
-    }
+    public List<Room> getAllRooms(String number, Room.RoomStatus status, String sortField, String sortDir) {
+        Sort sort = Sort.by(sortField != null ? sortField : "number");
+        sort = "desc".equals(sortDir) ? sort.descending() : sort.ascending();
 
-    // OK: findById(ID id) method signature is the same
-    public Optional<Room> getRoomById(String id) {
-        return roomRepository.findById(id);
-    }
+        String searchNum = (number != null && !number.isEmpty()) ? number : null;
 
-    // UPDATED: JPA delete is deleteById(ID id)
-    public void deleteRoom(String id) {
-        roomRepository.deleteById(id);
+        return roomRepository.searchRooms(searchNum, status, sort);
     }
 }

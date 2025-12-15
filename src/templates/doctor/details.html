@@ -8,7 +8,13 @@
 
 <div>
     <p><strong>Name:</strong> <span th:text="${doctor.name}"></span></p>
-    <p><strong>Department:</strong> <span th:text="${doctor.department.name}"></span></p>
+    <p><strong>ID:</strong> <span th:text="${doctor.id}"></span></p>
+
+    <p><strong>Hospital:</strong>
+        <span th:text="${doctor.department != null ? doctor.department.hospital.name : 'Unassigned'}"></span>
+    </p>
+
+    <p><strong>Department:</strong> <span th:text="${doctor.department != null ? doctor.department.name : 'Unassigned'}"></span></p>
     <p><strong>License:</strong> <span th:text="${doctor.licenseNumber}"></span></p>
 </div>
 

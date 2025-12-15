@@ -6,23 +6,36 @@
 <body>
 <h1>Rooms</h1>
 
+<form th:action="@{/rooms}" method="get" style="margin-bottom: 20px; border: 1px solid #ccc; padding: 10px;">
+    <label>Number: <input type="text" name="number" th:value="${number}" /></label>
+    <label>Status:
+        <select name="status">
+            <option value="">-- All --</option>
+            <option th:each="s : ${statuses}" th:value="${s}" th:text="${s}" th:selected="${s == status}"></option>
+        </select>
+    </label>
+    <button type="submit">Filter</button>
+    <a th:href="@{/rooms}">Reset</a>
+</form>
+
 <a th:href="@{/rooms/new}">Add new Room</a>
 
-<table border="1">
+<table border="1" cellpadding="5">
+    <thead>
     <tr>
         <th>ID</th>
         <th>Hospital</th>
-        <th>Capacity</th>
-        <th>Number</th>
-        <th>Status</th>
+        <th>
+            <a th:href="@{/rooms(sortField='number', sortDir=${reverseSortDir}, number=${number}, status=${status})}">Number</a>
+        </th>
         <th>Action</th>
     </tr>
+    </thead>
+    <tbody>
     <tr th:each="r : ${rooms}">
         <td th:text="${r.id}"></td>
         <td th:text="${r.hospital.name}"></td>
-        <td th:text="${r.capacity}"></td>
         <td th:text="${r.number}"></td>
-        <td th:text="${r.status}"></td>
         <td>
             <a th:href="@{'/rooms/' + ${r.id}}">Details</a> |
             <a th:href="@{'/rooms/' + ${r.id} + '/edit'}">Edit</a> |
@@ -31,6 +44,8 @@
             </form>
         </td>
     </tr>
+    </tbody>
 </table>
+<br><a th:href="@{/}">Back to Home</a>
 </body>
 </html>

@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
-
 import java.util.Optional;
 
 @Controller
@@ -23,11 +22,35 @@ public class RoomController {
     }
 
     @GetMapping
-    public String viewAllRooms(Model model) {
-        model.addAttribute("rooms", roomService.getAllRooms());
+    public String viewAllRooms(Model model,
+                               @RequestParam(required = false) String number,
+                               @RequestParam(required = false) Room.RoomStatus status,
+                               @RequestParam(required = false, defaultValue = "number") String sortField,
+                               @RequestParam(required = false, defaultValue = "asc") String sortDir) {
+
+        model.addAttribute("rooms", roomService.getAllRooms(number, status, sortField, sortDir));
+        model.addAttribute("statuses", Room.RoomStatus.values());
+
+        model.addAttribute("number", number);
+        model.addAttribute("status", status);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+
         return "room/index";
     }
 
+    @GetMapping("/{id}")
+    public String showRoomDetails(@PathVariable String id, Model model) {
+        Optional<Room> roomOpt = roomService.getRoomById(id);
+        if (roomOpt.isPresent()) {
+            model.addAttribute("room", roomOpt.get());
+            return "room/details";
+        }
+        return "redirect:/rooms";
+    }
+
+    // Add/Edit ...
     @GetMapping("/new")
     public String showAddRoomForm(Model model) {
         model.addAttribute("room", new Room());
@@ -56,18 +79,6 @@ public class RoomController {
             return "room/form";
         }
         roomService.addRoom(room);
-        return "redirect:/rooms";
-    }
-
-    // NEW: Details Page showing Patients and Staff
-    @GetMapping("/{id}")
-    public String showRoomDetails(@PathVariable String id, Model model) {
-        Optional<Room> roomOpt = roomService.getRoomById(id);
-        if (roomOpt.isPresent()) {
-            model.addAttribute("room", roomOpt.get());
-            // The template will traverse room.appointments -> patient / staff
-            return "room/details";
-        }
         return "redirect:/rooms";
     }
 

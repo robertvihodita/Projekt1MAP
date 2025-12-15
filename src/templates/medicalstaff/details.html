@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Medical Staff Details</title>
+</head>
+<body>
+<h1>Medical Staff Details</h1>
+
+<div>
+    <p><strong>Name:</strong> <span th:text="${staff.name}"></span></p>
+    <p><strong>ID:</strong> <span th:text="${staff.id}"></span></p>
+    <p><strong>Type:</strong> <span th:text="${staff.getClass().getSimpleName()}"></span></p>
+</div>
+
+<h3>Workplace Information</h3>
+<div style="margin-left: 20px;">
+    <p><strong>Hospital:</strong>
+        <span th:text="${staff.department != null ? staff.department.hospital.name : 'Unassigned'}"></span>
+    </p>
+    <p><strong>Department:</strong>
+        <span th:text="${staff.department != null ? staff.department.name : 'Unassigned'}"></span>
+    </p>
+</div>
+
+<h3>Specific Details</h3>
+<div style="margin-left: 20px;">
+    <div th:if="${staff.getClass().getSimpleName() == 'Doctor'}">
+        <p><strong>License Number:</strong> <span th:text="${staff.licenseNumber}"></span></p>
+    </div>
+
+    <div th:if="${staff.getClass().getSimpleName() == 'Nurse'}">
+        <p><strong>Qualification Level:</strong> <span th:text="${staff.qualificationLevel}"></span></p>
+        <p><strong>Shift:</strong> <span th:text="${staff.shift}"></span></p>
+    </div>
+</div>
+
+<br>
+<a th:href="@{/staff}">Back to Staff List</a>
+</body>
+</html>

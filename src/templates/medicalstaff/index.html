@@ -1,15 +1,26 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Doctors</title></head>
+<head>
+    <title>All Medical Staff</title>
+</head>
 <body>
-<h1>Doctors</h1>
+<h1>All Medical Staff</h1>
 
-<form th:action="@{/doctors}" method="get" style="margin-bottom: 20px; padding: 10px; border: 1px solid #ccc;">
-    <label>Name: <input type="text" name="name" th:value="${name}" /></label>
+<form th:action="@{/staff}" method="get" style="margin-bottom: 20px; padding: 10px; border: 1px solid #ccc;">
+
+    <label>Hospital:
+        <select name="hospitalId">
+            <option value="">-- All Hospitals --</option>
+            <option th:each="h : ${hospitals}"
+                    th:value="${h.id}"
+                    th:text="${h.name + ' (' + h.city + ')'}"
+                    th:selected="${h.id == hospitalId}"></option>
+        </select>
+    </label>
 
     <label>Department:
         <select name="departmentId">
-            <option value="">-- All --</option>
+            <option value="">-- All Departments --</option>
             <option th:each="d : ${departments}"
                     th:value="${d.id}"
                     th:text="${d.name}"
@@ -17,42 +28,50 @@
         </select>
     </label>
 
+    <label>Role:
+        <select name="role">
+            <option value="">-- All Roles --</option>
+            <option value="Doctor" th:selected="${role == 'Doctor'}">Doctor</option>
+            <option value="Nurse" th:selected="${role == 'Nurse'}">Nurse</option>
+        </select>
+    </label>
+
     <button type="submit">Filter</button>
-    <a th:href="@{/doctors}">Reset</a>
+    <a th:href="@{/staff}">Reset</a>
 </form>
 
-<a th:href="@{/doctors/new}">Add new Doctor</a>
+<p>
+    <a th:href="@{/doctors/new}">Add New Doctor</a> |
+    <a th:href="@{/nurses/new}">Add New Nurse</a>
+</p>
 
 <table border="1" cellpadding="5">
     <thead>
     <tr>
-        <th>ID</th>
+        <th>Type</th>
         <th>
-            <a th:href="@{/doctors(sortField='name', sortDir=${reverseSortDir}, name=${name}, departmentId=${departmentId})}">Name</a>
-        </th>
-        <th>Department</th>
-        <th>
-            <a th:href="@{/doctors(sortField='licenseNumber', sortDir=${reverseSortDir}, name=${name}, departmentId=${departmentId})}">License</a>
+            <a th:href="@{/staff(sortField='name', sortDir=${reverseSortDir}, hospitalId=${hospitalId}, departmentId=${departmentId}, role=${role})}">Name</a>
         </th>
         <th>Action</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="d : ${doctors}">
-        <td th:text="${d.id}"></td>
-        <td th:text="${d.name}"></td>
-        <td th:text="${d.department.name}"></td>
-        <td th:text="${d.licenseNumber}"></td>
+    <tr th:each="staff : ${staffList}">
+        <td th:text="${staff.getClass().getSimpleName()}"></td>
+        <td th:text="${staff.name}"></td>
         <td>
-            <a th:href="@{'/doctors/' + ${d.id}}">Details</a> |
-            <a th:href="@{'/doctors/' + ${d.id} + '/edit'}">Edit</a> |
-            <form th:action="@{'/doctors/' + ${d.id} + '/delete'}" method="post" style="display:inline;">
-                <button type="submit" onclick="return confirm('Delete?');">Delete</button>
+            <a th:href="@{'/staff/' + ${staff.id}}">Details</a> |
+            <a th:href="@{'/' + ${staff.getClass().getSimpleName().toLowerCase()} + 's/' + ${staff.id} + '/edit'}">Edit</a> |
+            <form th:action="@{'/staff/' + ${staff.id} + '/delete'}" method="post" style="display:inline;">
+                <button type="submit" onclick="return confirm('Delete this staff member?');">Delete</button>
             </form>
         </td>
     </tr>
     </tbody>
 </table>
-<br><a th:href="@{/}">Back to Home</a>
+
+<br>
+<a th:href="@{/}">Back to Home</a>
+
 </body>
 </html>
