@@ -20,6 +20,7 @@ public class Nurse extends MedicalStaff {
         super();
     }
 
+
     public Nurse(String name, String departmentId, String qualificationLevel, Shift shift) {
         super(name, departmentId);
         this.qualificationLevel = qualificationLevel;
@@ -31,6 +32,7 @@ public class Nurse extends MedicalStaff {
 
     public Shift getShift() { return shift; }
     public void setShift(Shift shift) { this.shift = shift; }
+
 
     @Override
     public String getRole() {

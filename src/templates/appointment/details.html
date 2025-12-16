@@ -19,16 +19,18 @@
 
 <h3>Assigned Medical Staff</h3>
 <table border="1">
+    <thead>
     <tr>
         <th>Name</th>
-        <th>Role</th>
         <th>Assignment Status</th>
     </tr>
+    </thead>
+    <tbody>
     <tr th:each="msa : ${appointment.medicalStaffAssignments}">
         <td th:text="${msa.medicalStaff.name}"></td>
-        <td th:text="${msa.medicalStaff.getClass().getSimpleName()}"></td>
         <td th:text="${msa.status}"></td>
     </tr>
+    </tbody>
 </table>
 
 <br><a th:href="@{/appointments}">Back to List</a>

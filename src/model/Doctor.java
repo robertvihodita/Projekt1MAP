@@ -17,6 +17,7 @@ public class Doctor extends MedicalStaff {
         super();
     }
 
+
     public Doctor(String name, String departmentId, String licenseNumber) {
         super(name, departmentId);
         this.licenseNumber = licenseNumber;
